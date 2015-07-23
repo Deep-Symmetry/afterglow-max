@@ -15,8 +15,7 @@
              :uberjar {:aot :all}}
   :repositories {"project" "file:repo"}
 
-  :plugins [[lein-protobuf "0.4.3" :exclusions [leinjacker]]
-            [codox "0.8.12"]
+  :plugins [[codox "0.8.12"]
             [lein-environ "1.0.0"]
             [lein-ancient "0.6.7"]]
 
