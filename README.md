@@ -1,6 +1,8 @@
 # afterglow-max
 
-A package for hosting Afterglow inside Cycling ‘74’s Max.
+A package for hosting
+[Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
+[Cycling ‘74’s Max](https://cycling74.com).
 
 ## Usage
 
