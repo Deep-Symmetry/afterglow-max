@@ -17,10 +17,13 @@
      (let [{:keys [output-fn]} data
            output-str (output-fn data)]
        (try
-         (if (:error? data)
+         (if (:error-level? data)
            (MaxObject/error output-str)
            (MaxObject/post output-str))
-         (catch Throwable _))))})
+         (catch Throwable t
+           (try
+             (.println System/err t)
+             (catch Throwable _))))))})
 
 (defn- init-internal
   "Performs the actual initialization, protected by the delay below
@@ -30,7 +33,7 @@
   (try
     (require 'afterglow-max-init)
     (catch Throwable t
-      (timbre/error "Problem loading afterglow-max-init.clj" t))))
+      (timbre/error "Problem loading Afterglow configuration file afterglow_max_init.clj:" t))))
 
 (defonce ^{:private true
            :doc "Used to ensure initialization takes place exactly once."}

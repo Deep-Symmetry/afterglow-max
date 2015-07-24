@@ -6,20 +6,30 @@
 
   It can only be instantiated when Afterglow is hosted as a Max
   package, because it relies on classes provided by Max which are not
-  distributed as part of Afterglow." {:doc/format :markdown}
+  distributed as part of Afterglow.
+
+  Allows the evaluation of a preconfigured Clojure expression when a
+  `bang` is received, or an arbitrary expression sent as a string
+  argument to an `eval` message. Each instance maintains its own
+  evaluation context and thread-local bindings (for things like
+  `*ns*`, the current namespace, etc.) with the help of the Afterglow
+  web REPL implementation, but unlike an actual web repl, there is no
+  session to expire. The bindings are kept around as long as the
+  object exists in an active Max patcher."
+  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[] []
                              [String] []}
               :exposes-methods {declareTypedIO parentDeclareTypedIO
                                 setInletAssist parentSetInletAssist
-                                setOutletAssist parentSetOutletAssist
-                                bang parentBang}
-              :state default-expr
+                                setOutletAssist parentSetOutletAssist}
+              :state state
               :init init
               :post-init post-init
               :main false
               :methods [[eval [String] void]])
   (:require [afterglow.max.core :as core]
+            [afterglow.web.routes.web-repl :as web-repl]
             [taoensso.timbre :as timbre])
   (:import (com.cycling74.max MaxObject DataTypes)))
 
@@ -31,8 +41,8 @@
   ([]
    (-init nil))
   ([expr]
-   ()
-   expr))
+   (core/init)
+   [[] (atom expr)]))
 
 (defn- -post-init
   "The post-init phase of the constructors tells Max
@@ -45,6 +55,27 @@
    (.parentSetOutletAssist this (into-array String ["result: evaluated expression"]))))
 
 (defn- -eval
-  "Evaluate an expression and send the result to the outlet"
+  "Evaluate an expression and send the result to the outlet.
+  We leverage the infrastructure built into the web console for
+  maintaining an evaluation context."
   [this expr]
-  (MaxObject/post (str "eval: " expr)))
+  (let [result (web-repl/do-eval expr this)]
+    (if (:result result)
+      (.outlet this 0 "result" (:result result))
+      (timbre/error (str "Problem evaluating " expr ": " (:error result))))))
+
+(defn- -bang
+  "Respond to a bang message. If we have a configured expression,
+  evaluate it and return the result; otherwise simply pass the bang
+  along."
+  [this]
+  (if-let [expr @(.state this)]
+    (-eval this expr)
+    (.outletBang this 0)))
+
+(defn- -notifyDeleted
+  "The Max peer object has been deleted, so this instance is no longer
+  going to be used. Tell the Afterglow web REPL it can clean up our
+  thread-local bindings."
+  [this]
+  (web-repl/discard-bindings this))
