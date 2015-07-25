@@ -1,6 +1,6 @@
 (ns afterglow.max.core
   (:require [afterglow.core]
-            [afterglow.max.init]
+            [afterglow.max.init :refer [init-dir load-init-file]]
             [taoensso.timbre :as timbre])
   (:import (com.cycling74.max MaxObject DataTypes)
            (afterglow.max init__init)))
@@ -39,8 +39,9 @@
     ;;(require 'afterglow-max-init)
     (let [jar (clojure.java.io/file (.getLocation (.getCodeSource (.getProtectionDomain afterglow.max.init__init))))
           dir (.getParentFile (.getParentFile jar))]
+      (reset! init-dir dir)
       (binding [*ns* (the-ns 'afterglow.max.init)]
-        (load-file (.getPath (clojure.java.io/file dir "init.clj")))))
+        (load-init-file "init.clj")))
     (catch Throwable t
       (timbre/error "Problem loading Afterglow configuration file init.clj:" t))))
 
