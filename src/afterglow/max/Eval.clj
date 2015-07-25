@@ -4,10 +4,6 @@
   within a hostend instance of
   https://github.com/brunchboy/afterglow#afterglow[Afterglow].
 
-  It can only be instantiated when Afterglow is hosted as a Max
-  package, because it relies on classes provided by Max which are not
-  distributed as part of Afterglow.
-
   Allows the evaluation of a preconfigured Clojure expression when a
   `bang` is received, or an arbitrary expression sent as a string
   argument to an `eval` message. Each instance maintains its own
@@ -31,7 +27,7 @@
   (:require [afterglow.max.core :as core]
             [afterglow.web.routes.web-repl :as web-repl]
             [taoensso.timbre :as timbre])
-  (:import (com.cycling74.max MaxObject DataTypes)))
+  (:import (com.cycling74.max MaxObject)))
 
 (import 'afterglow.max.Eval)
 
@@ -42,7 +38,7 @@
    (-init nil))
   ([expr]
    (core/init)
-   [[] (atom expr)]))
+   [[] expr]))
 
 (defn- -post-init
   "The post-init phase of the constructors tells Max
@@ -69,7 +65,7 @@
   evaluate it and return the result; otherwise simply pass the bang
   along."
   [this]
-  (if-let [expr @(.state this)]
+  (if-let [expr (.state this)]
     (-eval this expr)
     (.outletBang this 0)))
 
