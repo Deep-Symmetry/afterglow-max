@@ -32,7 +32,8 @@
               :constructors {[int int] []}
               :exposes-methods {declareTypedIO parentDeclareTypedIO
                                 setInletAssist parentSetInletAssist
-                                setOutletAssist parentSetOutletAssist}
+                                setOutletAssist parentSetOutletAssist
+                                createInfoOutlet parentCreateInfoOutlet}
               :state state
               :init init
               :post-init post-init
@@ -54,10 +55,26 @@
 ;; TODO: Should we store the constructor value of *show* in our state, in case it changes?
 ;; TODO: Should we detect changes in the cue stored at our cell, and shut down?
 
+(defn cue-variables
+  "Return the cue's variables, in sorted order by key."
+  [this]
+  (sort-by :key (get-in @(.state this) [:cue :variables])))
+
+(defn cue-variable-names
+  "Return the user-oriented names of the cue's variable, in key
+  order."
+  [this]
+  (map :name (cue-variables this)))
+
+(defn cue-variable-type-string
+  "Returns the type strings telling Max what kind of outlets each cue
+  variable uses."
+  [this]
+  (clojure.string/join (map #(if (= (:type %) :int) "i" "f") (cue-variables this))))
+
 (defn- -init
   [x y]
   (core/init)
-  (timbre/info "-init" x y)
   (when (nil? *show*)
     (throw (IllegalStateException. "Cannot create Cue object: No default show has been established.")))
   (let [cue (controllers/cue-at (:cue-grid *show*) x y)]
@@ -70,12 +87,17 @@
   and outlets supported by this object, and registers our interest in
   cue state with Afterglow."
   [this x y]
-  (timbre/info "-post-init" x y)
-  (.parentDeclareTypedIO this "m" "m")
-  (.parentSetInletAssist this (into-array String ["start, end, kill: control cue; end and kill can take id"]))
-  (.parentSetOutletAssist this (into-array String ["reports changes in cue state and associated id values"]))
-  (swap! (.state this) assoc :f (fn [new-state _ id]
-                                  (.outlet this 0 (name new-state) (into-array Atom [(Atom/newAtom id)]))))
+  (let [type-string (str "m" (cue-variable-type-string this))]
+    (.parentDeclareTypedIO this type-string type-string))
+  (.parentSetInletAssist this (into-array String (concat ["start, end, kill: control cue; end and kill can take id"]
+                                                         (cue-variable-names this))))
+  (.parentSetOutletAssist this (into-array String (concat ["reports changes in cue state and associated id values"]
+                                                          (cue-variable-names this))))
+  (.parentCreateInfoOutlet this false)
+  (swap! (.state this) assoc :f (fn [new-state _ id] ; TODO: Include readable effect name as another atom
+                                  (let [cue-name (get-in @(.state this) [:cue :name])]
+                                    (.outlet this 0 (name new-state)
+                                             (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)])))))
   (controllers/add-cue-fn! (:cue-grid *show*) x y (:f @(.state this))))
 
 ;; TODO: Start it over if it is ending.
@@ -106,9 +128,10 @@
   (show/end-effect! (get-in @(.state this) [:cue :key]) :force true :when-id id)))
 
 (defn- -bang
-  "Respond to a bang message. If we have a configured expression,
-  evaluate it and return the result; otherwise simply pass the bang
-  along."
+  "Respond to a bang message. Act like a press on a grid controller
+  pad: If the cue is not active, start it. If it is running, ask it to
+  end; if it is still running after being asked to end, this will kill
+  it."
   [this]
   (let [{:keys [x y cue]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
