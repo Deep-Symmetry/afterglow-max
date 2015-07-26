@@ -116,6 +116,21 @@
                                              (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)])))))
   (controllers/add-cue-fn! (:cue-grid *show*) x y (:f @(.state this))))
 
+(defn apply-cue-local-variables
+  "After we start a cue, this function looks for any local values we
+  have saved for variables are creted for the duration of the cue,
+  and if any are found, copies them into the actual cue variables."
+  [this]
+  (let [{:keys [x y]} @(.state this)
+        [_ active] (show/find-cue-grid-active-effect *show* x y)]
+    (when active
+      (doseq [v (cue-variables this)]
+        (when (string? (:key v))
+          (let [cue-local-key (keyword (:key v))
+                cue-local-value (get-in @(.state this) [:variables cue-local-key])]
+            (when cue-local-value
+              (show/set-variable! (get-in active [:variables cue-local-key]) cue-local-value))))))))
+
 (defn- -start
   "Start the cue if it is not already running (if it is in the process
   of ending, start a new instance in its place)."
@@ -123,7 +138,8 @@
   (let [{:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (when-not (and active (not (:ending active)))
-      (show/add-effect-from-cue-grid! x y))))
+      (show/add-effect-from-cue-grid! x y)
+      (apply-cue-local-variables this))))
 
 (defn- -end
   "Ask the cue to end; if it has already been asked once, kill it
@@ -171,8 +187,8 @@
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (if (zero? inlet)  ; Cue control inlet?
       (if active  ; Transition the cue to the next appropriate state.
-        (show/end-effect! (:key cue))
-        (show/add-effect-from-cue-grid! x y))
+        (-end this)
+        (-start this))
       (let [v (nth (cue-variables this) (dec inlet)) ; One of the variable inlets; output its current value.
             current-val (if (keyword? (:key v))
                           (show/get-variable (:key v))
