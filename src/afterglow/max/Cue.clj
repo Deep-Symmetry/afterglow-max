@@ -60,16 +60,26 @@
 ;; TODO: Should we detect changes in the cue stored at our cell, and shut down?
 
 (defn cue-variables
-  "Return the cue's variables, in sorted order by key name (regardless
-  of whether the key is a string or keyword)."
+  "Return the cue's variables."
   [this]
-  (sort-by (comp name :key) (get-in @(.state this) [:cue :variables])))
+  (get-in @(.state this) [:cue :variables]))
 
 (defn cue-variable-names
-  "Return the user-oriented names of the cue's variable, in key
-  order."
+  "Return the user-oriented names of the cue's variables."
   [this]
   (map :name (cue-variables this)))
+
+(defn cue-variable-inlet-assist
+  "Return the tooltip text describing the cue variable inlets."
+  [this]
+  (for [n (cue-variable-names this)]
+    (str "float: Set " n "; bang: Report current value")))
+
+(defn cue-variable-outlet-assist
+  "Return the tooltip text describing the cue variable outlets."
+  [this]
+  (for [n (cue-variable-names this)]
+    (str "Output changed values of " n)))
 
 (defn cue-variable-type-string
   "Returns the type strings telling Max what kind of outlets each cue
@@ -92,26 +102,27 @@
   and outlets supported by this object, and registers our interest in
   cue state with Afterglow."
   [this x y]
-  (let [type-string (str "m" (cue-variable-type-string this))]
-    (.parentDeclareTypedIO this type-string type-string))
-  (.parentSetInletAssist this (into-array String (concat ["start, end, kill: control cue; end and kill can take id"]
-                                                         (cue-variable-names this))))
-  (.parentSetOutletAssist this (into-array String (concat ["reports changes in cue state and associated id values"]
-                                                          (cue-variable-names this))))
-  (.parentCreateInfoOutlet this false)
-  (swap! (.state this) assoc :f (fn [new-state _ id] ; TODO: Include readable effect name as another atom
-                                  (let [cue-name (get-in @(.state this) [:cue :name])]
+  (let [type-string (str "m" (cue-variable-type-string this))
+        cue-name (get-in @(.state this) [:cue :name])
+        first-inlet-assist (str "start, end, kill, bang: Control cue \"" cue-name "\"")]
+    (.parentDeclareTypedIO this type-string type-string)
+    (.parentSetInletAssist this (into-array String (concat [first-inlet-assist]
+                                                           (cue-variable-inlet-assist this))))
+    (.parentSetOutletAssist this (into-array String (concat ["Output changes in Cue state and associated id values"]
+                                                            (cue-variable-outlet-assist this))))
+    (.parentCreateInfoOutlet this false)
+    (swap! (.state this) assoc :f (fn [new-state _ id]
                                     (.outlet this 0 (name new-state)
                                              (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)])))))
   (controllers/add-cue-fn! (:cue-grid *show*) x y (:f @(.state this))))
 
-;; TODO: Start it over if it is ending.
 (defn- -start
-  "Start the cue if it is not already running."
+  "Start the cue if it is not already running (if it is in the process
+  of ending, start a new instance in its place)."
   [this]
   (let [{:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
-    (when-not active
+    (when-not (and active (not (:ending active)))
       (show/add-effect-from-cue-grid! x y))))
 
 (defn- -end
@@ -158,7 +169,6 @@
   (let [inlet (.parentGetInlet this)
         {:keys [x y cue]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
-    (timbre/info "got banged on inlet" inlet)
     (if (zero? inlet)  ; Cue control inlet?
       (if active  ; Transition the cue to the next appropriate state.
         (show/end-effect! (:key cue))
@@ -188,10 +198,9 @@
   variable inlets has been set."
   [this new-value]
   (let [inlet (.parentGetInlet this)]
-    (timbre/info "received float" new-value "on inlet" inlet)
     (if (zero? inlet)  ; Only variable inlets accept floats, ignore attempts to send to 0, but complain.
-      (timbre/error "cue control inlet does not respond to numbers")
-      (let [v (nth (cue-variables this) inlet)
+      (timbre/error "Cue control inlet does not respond to numbers.")
+      (let [v (nth (cue-variables this) (dec inlet))
             new-value (max new-value (:min v))  ; Restrict range of variable values as per cue specs.
             new-value (min new-value (:max v))]
         (if (keyword? (:key v))
