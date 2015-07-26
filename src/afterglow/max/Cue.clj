@@ -33,7 +33,8 @@
               :exposes-methods {declareTypedIO parentDeclareTypedIO
                                 setInletAssist parentSetInletAssist
                                 setOutletAssist parentSetOutletAssist
-                                createInfoOutlet parentCreateInfoOutlet}
+                                createInfoOutlet parentCreateInfoOutlet
+                                getInlet parentGetInlet}
               :state state
               :init init
               :post-init post-init
@@ -53,12 +54,16 @@
 (import 'afterglow.max.Cue)
 
 ;; TODO: Should we store the constructor value of *show* in our state, in case it changes?
+;;       For now, no, establish convention that *show* gets set in afterglow-max startup
+;;       and is not changed after that point.
+
 ;; TODO: Should we detect changes in the cue stored at our cell, and shut down?
 
 (defn cue-variables
-  "Return the cue's variables, in sorted order by key."
+  "Return the cue's variables, in sorted order by key name (regardless
+  of whether the key is a string or keyword)."
   [this]
-  (sort-by :key (get-in @(.state this) [:cue :variables])))
+  (sort-by (comp name :key) (get-in @(.state this) [:cue :variables])))
 
 (defn cue-variable-names
   "Return the user-oriented names of the cue's variable, in key
@@ -127,17 +132,72 @@
   ([this id]
   (show/end-effect! (get-in @(.state this) [:cue :key]) :force true :when-id id)))
 
-(defn- -bang
-  "Respond to a bang message. Act like a press on a grid controller
-  pad: If the cue is not active, start it. If it is running, ask it to
-  end; if it is still running after being asked to end, this will kill
-  it."
-  [this]
-  (let [{:keys [x y cue]} @(.state this)
+(defn get-cue-local-variable
+  "Look up the current value for a cue variable which gets created for
+  the lifespan of a running cue. If the cue is currently active,
+  report the value of the corresponding temporary show variable. If
+  not, report the local value we are tracking to be used the next time
+  we start the cue."
+  [this v]
+  (let [cue-local-key (keyword (:key v))
+        {:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (if active
-      (show/end-effect! (:key cue))
-      (show/add-effect-from-cue-grid! x y))))
+      (show/get-variable (get-in active [:variables cue-local-key]))
+      (get-in @(.state this) [:variables cue-local-key]))))
+
+(defn- -bang
+  "Respond to a bang message. For the cue control inlet, this acts
+  like a press on a grid controller pad: If the cue is not active,
+  start it. If it is running, ask it to end; if it is still running
+  after being asked to end, this will kill it. For variable inlets,
+  causes the current value of the variable, if it is defined, to be
+  output to the corresponding outlet. If the variable has no value, or
+  is not a number, the corresponding outlet is simply banged."
+  [this]
+  (let [inlet (.parentGetInlet this)
+        {:keys [x y cue]} @(.state this)
+        [_ active] (show/find-cue-grid-active-effect *show* x y)]
+    (timbre/info "got banged on inlet" inlet)
+    (if (zero? inlet)  ; Cue control inlet?
+      (if active  ; Transition the cue to the next appropriate state.
+        (show/end-effect! (:key cue))
+        (show/add-effect-from-cue-grid! x y))
+      (let [v (nth (cue-variables this) (dec inlet)) ; One of the variable inlets; output its current value.
+            current-val (if (keyword? (:key v))
+                          (show/get-variable (:key v))
+                          (get-cue-local-variable this v))]
+        (if (number? current-val)
+          (.outlet this inlet (float current-val))
+          (.outletBang this inlet))))))
+
+(defn update-cue-local-variable
+  "Max wants to set a value for a cue variable which gets created for
+  the lifespan of a running cue. Save a local copy to use when
+  starting up future cues, and if there is currently one active, also
+  update the corresponding temporary show variable."
+  [this new-value v]
+  (let [cue-local-key (keyword (:key v))
+        {:keys [x y]} @(.state this)
+        [_ active] (show/find-cue-grid-active-effect *show* x y)]
+    (swap! (.state this) assoc-in [:variables cue-local-key] new-value)
+    (when active (show/set-variable! (get-in active [:variables cue-local-key]) new-value))))
+
+(defn- -inlet-float
+  "Respond to a float message, meaning the value of one of the
+  variable inlets has been set."
+  [this new-value]
+  (let [inlet (.parentGetInlet this)]
+    (timbre/info "received float" new-value "on inlet" inlet)
+    (if (zero? inlet)  ; Only variable inlets accept floats, ignore attempts to send to 0, but complain.
+      (timbre/error "cue control inlet does not respond to numbers")
+      (let [v (nth (cue-variables this) inlet)
+            new-value (max new-value (:min v))  ; Restrict range of variable values as per cue specs.
+            new-value (min new-value (:max v))]
+        (if (keyword? (:key v))
+          (show/set-variable! (:key v) new-value)
+          (update-cue-local-variable this new-value v))
+        (.outlet this inlet new-value)))))
 
 (defn- -notifyDeleted
   "The Max peer object has been deleted, so this instance is no longer
