@@ -87,6 +87,35 @@
   [this]
   (clojure.string/join (map #(if (= (:type %) :int) "i" "f") (cue-variables this))))
 
+(defn unwatch-cue-local-variables
+  "When a cue has ended, or this object is being deactivated, get rid
+  of any callback functions that were watching cue-local variable
+  value changes."
+  [this]
+  (doseq [[k f] (:local-var-fn @(.state this))]
+    (show/clear-variable-set-fn! k f))
+  (swap! (.state this) dissoc :local-var-fn))
+
+(defn watch-cue-local-variables
+  "After we start a cue, this function looks for any variable bindings
+  which are cue-local, and registers callback functions to send
+  updates if their values change. Also immediately sends out the
+  values of the variables that the cue started up with."
+  [this]
+  (unwatch-cue-local-variables this)  ; Should be unnecessary, but clean up just in case
+  (let [{:keys [x y]} @(.state this)
+        [_ active] (show/find-cue-grid-active-effect *show* x y)]
+    (when active
+      (doseq [[i v] (map vector (range) (cue-variables this))]
+      (when (string? (:key v))
+        (let [outlet (inc i)
+              cue-local-key (keyword (:key v))
+              cue-local-var (get-in active [:variables cue-local-key])
+              f (fn [_ new-value] (when (number? new-value) (.outlet this outlet (float new-value))))]
+          (swap! (.state this) assoc-in [:local-var-fn cue-local-var] f)
+          (f cue-local-var (show/get-variable cue-local-var))
+          (show/add-variable-set-fn! cue-local-var f)))))))
+
 (defn- -init
   [x y]
   (core/init)
@@ -111,10 +140,24 @@
     (.parentSetOutletAssist this (into-array String (concat ["Output changes in Cue state and associated id values"]
                                                             (cue-variable-outlet-assist this))))
     (.parentCreateInfoOutlet this false)
-    (swap! (.state this) assoc :f (fn [new-state _ id]
-                                    (.outlet this 0 (name new-state)
-                                             (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)])))))
-  (controllers/add-cue-fn! (:cue-grid *show*) x y (:f @(.state this))))
+
+    ;; Set up the callback function for changes to cue state
+    (let [f (fn [new-state _ id]
+              (.outlet this 0 (name new-state) (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)]))
+              (case new-state
+                :started (watch-cue-local-variables this)
+                :ended (unwatch-cue-local-variables this)
+                nil))]
+      (swap! (.state this) assoc :cue-fn f)
+      (controllers/add-cue-fn! (:cue-grid *show*) x y f))
+
+    ;; Set up the callback functions for changes to values of permanent show variables bound to the cue
+    (doseq [[i v] (map vector (range) (cue-variables this))]
+      (when (keyword? (:key v))
+        (let [outlet (inc i)
+              f (fn [_ new-value] (when (number? new-value) (.outlet this outlet (float new-value))))]
+          (swap! (.state this) assoc-in [:perm-var-fn (:key v)] f)
+          (show/add-variable-set-fn! (:key v) f))))))
 
 (defn apply-cue-local-variables
   "After we start a cue, this function looks for any local values we
@@ -227,7 +270,11 @@
 (defn- -notifyDeleted
   "The Max peer object has been deleted, so this instance is no longer
   going to be used. Unregister our cue state notification function,
-  and allow this object to be garbage collected."
+  and any variable change notification functions, and allow this
+  object to be garbage collected."
   [this]
-  (let [{:keys [x y f]} @(.state this)]
-    (controllers/clear-cue-fn! (:cue-grid *show*) x y f)))
+  (let [{:keys [x y cue-fn perm-var-fn]} @(.state this)]
+    (controllers/clear-cue-fn! (:cue-grid *show*) x y cue-fn)
+    (doseq [[k f] perm-var-fn]
+      (show/clear-variable-set-fn! k f))
+    (unwatch-cue-local-variables this)))
