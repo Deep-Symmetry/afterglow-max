@@ -106,10 +106,9 @@
   (let [{:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (when active
-      (doseq [[i v] (map vector (range) (cue-variables this))]
+      (doseq [[outlet v] (map vector (iterate inc 1) (cue-variables this))]
       (when (string? (:key v))
-        (let [outlet (inc i)
-              cue-local-key (keyword (:key v))
+        (let [cue-local-key (keyword (:key v))
               cue-local-var (get-in active [:variables cue-local-key])
               f (fn [_ new-value] (when (number? new-value) (.outlet this outlet (float new-value))))]
           (swap! (.state this) assoc-in [:local-var-fn cue-local-var] f)
@@ -152,10 +151,9 @@
       (controllers/add-cue-fn! (:cue-grid *show*) x y f))
 
     ;; Set up the callback functions for changes to values of permanent show variables bound to the cue
-    (doseq [[i v] (map vector (range) (cue-variables this))]
+    (doseq [[outlet v] (map vector (iterate inc 1) (cue-variables this))]
       (when (keyword? (:key v))
-        (let [outlet (inc i)
-              f (fn [_ new-value] (when (number? new-value) (.outlet this outlet (float new-value))))]
+        (let [f (fn [_ new-value] (when (number? new-value) (.outlet this outlet (float new-value))))]
           (swap! (.state this) assoc-in [:perm-var-fn (:key v)] f)
           (show/add-variable-set-fn! (:key v) f))))))
 
