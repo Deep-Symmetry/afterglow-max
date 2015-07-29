@@ -1,9 +1,22 @@
 (ns afterglow.max.core
   (:require [afterglow.core]
+            [afterglow.version :as version]
             [afterglow.max.init :refer [init-dir load-init-file]]
             [taoensso.timbre :as timbre])
   (:import (com.cycling74.max MaxObject DataTypes)
            (afterglow.max init__init)))
+
+(defn max-output-fn
+  "Format log lines appropriately for the Max console"
+  [data]
+  (let [{:keys [level ?err_ vargs_ msg_ ?ns-str hostname_ timestamp_]} data]
+    (str
+     (force timestamp_) " "
+     (clojure.string/upper-case (name level))  " "
+     "[" (or ?ns-str "?ns") "] - "
+     (force msg_)
+     (when-let [err (force ?err_)]
+       (str "\n" (timbre/stacktrace err))))))
 
 (defn max-console-appender
   "Returns an appender which writes to the Max console."
@@ -13,7 +26,7 @@
    :min-level  nil
    ;; Limit output to three every 30ms, and no more than ten every 30 seconds.
    :rate-limit [[3 30] [10 30000]]
-   :output-fn  :inherit
+   :output-fn  max-output-fn
    :fn
    (fn [data]
      (let [{:keys [output-fn]} data
@@ -42,6 +55,7 @@
       (reset! init-dir dir)
       (binding [*ns* (the-ns 'afterglow.max.init)]
         (load-init-file "init.clj")))
+    (timbre/info (version/title) (version/tag) "loaded.")
     (catch Throwable t
       (timbre/error "Problem loading Afterglow configuration file init.clj:" t))))
 

@@ -6,6 +6,11 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [afterglow "0.1.1-SNAPSHOT"]]
   :uberjar-name "afterglow-max.jar"
+  :manifest {"Name" ~#(str (clojure.string/replace (:group %) "." "/")
+                            "/" (:name %) "/")
+             "Package" ~#(str (:group %) "." (:name %))
+             "Specification-Title" ~#(:name %)
+             "Specification-Version" ~#(:version %)}
 
   :profiles {:provided {:dependencies [[local/max "1.0.0"]]}
              :dev {:resource-paths ["dev_resources"]
