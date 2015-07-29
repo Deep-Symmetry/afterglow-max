@@ -20,13 +20,38 @@
 
   The first outlet sends messages that provide status updates about
   the cue, `started`, `ending`, or `ended`, each followed by the
-  numeric ID of the effect associated with that run of the cue. These
-  messages will be sent regardless of whether the cue was started by
-  this object.
+  numeric ID of the effect associated with that run of the cue, and
+  the cue name. These messages will be sent regardless of whether the
+  cue was started by this object.
 
   The remaining inlets and outlets allow the variables bound to the
-  cue to be adjusted and monitored. They will be documented once
-  implemented."
+  cue to be adjusted and monitored. There will be as many created as
+  there are cue variables, in the same order as found within the
+  https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#creating-cues[:variables
+  list], and their popup help will name the variable each one affects.
+
+  The variable inlets respond to `float` messages by setting the
+  corresponding cue variable, as well as remembering that value to
+  establish as the initial value for the cue variable when the cue is
+  next started. (If the cue is not active when the message is
+  received, it will only establish the initial value for the next time
+  the cue starts; even if the cue variable is bound to an actual show
+  variable, it will not be affected while the cue is inactive.)
+
+  The variable inlets respond to `bang` messages by sending the
+  current stored value (within the Cue object, for use the next time
+  the cue is started, not the associated actual show variable, even if
+  the cue is currently active) to the corresponding outlet.
+
+  The variable outlets report new values of show variables they are
+  associated with whenever they change, regardless of whether the
+  changes were caused by Max or outside of it. Cue variables which are
+  bound to regular show variables can change even when the cue is not
+  active, and these changes will be reported. Cue variables which are
+  local to the cue exist only while the cue is active, so cannot
+  change otherwise. As noted above, these outlets also report the
+  locally stored initial value for the cue variable when the outlet
+  above them receives a `bang`."
   {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[int int] []}
@@ -46,6 +71,7 @@
                         [kill [int] void]])
   (:require [afterglow.max.core :as core]
             [afterglow.controllers :as controllers]
+            [afterglow.effects.cues :as cues]
             [afterglow.show :as show]
             [afterglow.show-context :refer [*show*]]
             [taoensso.timbre :as timbre])
@@ -99,8 +125,7 @@
 (defn watch-cue-local-variables
   "After we start a cue, this function looks for any variable bindings
   which are cue-local, and registers callback functions to send
-  updates if their values change. Also immediately sends out the
-  values of the variables that the cue started up with."
+  updates if their values change."
   [this]
   (unwatch-cue-local-variables this)  ; Should be unnecessary, but clean up just in case
   (let [{:keys [x y]} @(.state this)
@@ -115,7 +140,10 @@
           (f cue-local-var (show/get-variable cue-local-var))
           (show/add-variable-set-fn! cue-local-var f)))))))
 
-(defn- -init
+(defn -init
+  "Called during the first phase of object construction with the two
+  arguments identifying the grid coordinates of the cue to be tracked.
+  Validates that there is a cue there, and allocates object state."
   [x y]
   (core/init)
   (when (nil? *show*)
@@ -125,7 +153,7 @@
       (throw (IllegalStateException. (str "Cannot create Cue object: No cue at " x ", " y " in *show*"))))
     [[] (atom {:x x :y y :cue cue})]))
 
-(defn- -post-init
+(defn -post-init
   "The post-init phase of the constructors tells Max about the inlets
   and outlets supported by this object, and registers our interest in
   cue state with Afterglow."
@@ -157,32 +185,18 @@
           (swap! (.state this) assoc-in [:perm-var-fn (:key v)] f)
           (show/add-variable-set-fn! (:key v) f))))))
 
-(defn apply-cue-local-variables
-  "After we start a cue, this function looks for any local values we
-  have saved for variables are creted for the duration of the cue,
-  and if any are found, copies them into the actual cue variables."
-  [this]
-  (let [{:keys [x y]} @(.state this)
-        [_ active] (show/find-cue-grid-active-effect *show* x y)]
-    (when active
-      (doseq [v (cue-variables this)]
-        (when (string? (:key v))
-          (let [cue-local-key (keyword (:key v))
-                cue-local-value (get-in @(.state this) [:variables cue-local-key])]
-            (when cue-local-value
-              (show/set-variable! (get-in active [:variables cue-local-key]) cue-local-value))))))))
-
-(defn- -start
+(defn -start
   "Start the cue if it is not already running (if it is in the process
-  of ending, start a new instance in its place)."
+  of ending, start a new instance in its place). Send as overrides any
+  initial values for its variables which we have received on our
+  inlets."
   [this]
   (let [{:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (when-not (and active (not (:ending active)))
-      (show/add-effect-from-cue-grid! x y)
-      (apply-cue-local-variables this))))
+      (show/add-effect-from-cue-grid! x y :var-overrides (:variables @(.state this))))))
 
-(defn- -end
+(defn -end
   "Ask the cue to end; if it has already been asked once, kill it
   immediately. If an id parameter is given, the cue will be affected
   only if it is still running the effect with the specified id."
@@ -191,7 +205,7 @@
   ([this id]
    (show/end-effect! (get-in @(.state this) [:cue :key]) :when-id id)))
 
-(defn- -kill
+(defn -kill
   "Terminate the cue immediately. If an id parameter is given, the cue
   will be killed only if it is still running the effect with the
   specified id."
@@ -200,28 +214,23 @@
   ([this id]
   (show/end-effect! (get-in @(.state this) [:cue :key]) :force true :when-id id)))
 
-(defn get-cue-local-variable
-  "Look up the current value for a cue variable which gets created for
-  the lifespan of a running cue. If the cue is currently active,
-  report the value of the corresponding temporary show variable. If
-  not, report the local value we are tracking to be used the next time
-  we start the cue."
+(defn get-cue-variable
+  "Look up the local value we are tracking for a cue variable, to be
+  used when we start the cue."
   [this v]
-  (let [cue-local-key (keyword (:key v))
-        {:keys [x y]} @(.state this)
-        [_ active] (show/find-cue-grid-active-effect *show* x y)]
-    (if active
-      (show/get-variable (get-in active [:variables cue-local-key]))
-      (get-in @(.state this) [:variables cue-local-key]))))
+  (let [cue-local-key (keyword (:key v))]
+    (get-in @(.state this) [:variables cue-local-key])))
 
-(defn- -bang
+(defn -bang
   "Respond to a bang message. For the cue control inlet, this acts
   like a press on a grid controller pad: If the cue is not active,
   start it. If it is running, ask it to end; if it is still running
-  after being asked to end, this will kill it. For variable inlets,
-  causes the current value of the variable, if it is defined, to be
-  output to the corresponding outlet. If the variable has no value, or
-  is not a number, the corresponding outlet is simply banged."
+  after being asked to end, this will kill it.
+
+  For variable inlets, sends the most recent value (if any) that has
+  been received by inlet above to establish for the cue when it next
+  starts. If no value has ever been received by the inlet, the
+  corresponding outlet is simply banged."
   [this]
   (let [inlet (.parentGetInlet this)
         {:keys [x y cue]} @(.state this)
@@ -231,26 +240,23 @@
         (-end this)
         (-start this))
       (let [v (nth (cue-variables this) (dec inlet)) ; One of the variable inlets; output its current value.
-            current-val (if (keyword? (:key v))
-                          (show/get-variable (:key v))
-                          (get-cue-local-variable this v))]
+            current-val (get-cue-variable this v active)]
         (if (number? current-val)
           (.outlet this inlet (float current-val))
           (.outletBang this inlet))))))
 
-(defn update-cue-local-variable
-  "Max wants to set a value for a cue variable which gets created for
-  the lifespan of a running cue. Save a local copy to use when
-  starting up future cues, and if there is currently one active, also
-  update the corresponding temporary show variable."
+(defn update-cue-variable
+  "Max wants to set a value for a cue variable. Save a local copy to
+  use when starting up future cues, and set the corresponding show
+  variable if the cue is currently active."
   [this new-value v]
   (let [cue-local-key (keyword (:key v))
-        {:keys [x y]} @(.state this)
+        {:keys [cue x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (swap! (.state this) assoc-in [:variables cue-local-key] new-value)
-    (when active (show/set-variable! (get-in active [:variables cue-local-key]) new-value))))
+    (when active (cues/set-cue-variable! cue v new-value :when-id (:id active)))))
 
-(defn- -inlet-float
+(defn -inlet-float
   "Respond to a float message, meaning the value of one of the
   variable inlets has been set."
   [this new-value]
@@ -260,12 +266,9 @@
       (let [v (nth (cue-variables this) (dec inlet))
             new-value (max new-value (:min v))  ; Restrict range of variable values as per cue specs.
             new-value (min new-value (:max v))]
-        (if (keyword? (:key v))
-          (show/set-variable! (:key v) new-value)
-          (update-cue-local-variable this new-value v))
-        (.outlet this inlet new-value)))))
+        (update-cue-variable this new-value v)))))
 
-(defn- -notifyDeleted
+(defn -notifyDeleted
   "The Max peer object has been deleted, so this instance is no longer
   going to be used. Unregister our cue state notification function,
   and any variable change notification functions, and allow this
