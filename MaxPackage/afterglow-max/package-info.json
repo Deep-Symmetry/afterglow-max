@@ -1,0 +1,10 @@
+{
+ "name": "afterglow-max",
+ "type": "package",
+ "author": "Deep Symmetry, LLC",
+ "description": "Hosts Afterglow inside Max",
+ "version": "0.1.0",
+ "major_version": "0",
+ "minor_version": "1",
+ "min_max_version": "6.0.0"
+}

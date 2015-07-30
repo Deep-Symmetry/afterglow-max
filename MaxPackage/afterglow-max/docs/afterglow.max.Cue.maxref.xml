@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.max.Cue" module="max" category="afterglow-max">
+  <digest>
+    Afterglow cue control and monitoring
+  </digest>
+	
+  <description>
+    Allows Max to control an Afterglow <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#cues">cue</a>,
+    identified by its coordinates in a show's <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#the-cue-grid">cue
+    grid</a>. Left inlet can start or stop the cue via <m>start</m>,
+    <m>end</m>, <m>kill</m>, or <m>bang</m>; left outlet reports on
+    changes in cue state. Remaining inlets alter cue variables (if any
+    exist) while the cue is active, and establish values they will be
+    assigned when the cue starts. Remaining outlets report the new
+    values whenever cue variables are changed, regardless of the
+    source of the change.
+    <br />
+
+    <h2>Examples</h2>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><openfilelink
+        filename="afterglow.cue.aim.example.maxpat">afterglow.cue.aim.example.maxpat</openfilelink></td>
+        <td>Use a two-dimensional slider to control an <a
+        href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#aim-effects">Aim
+        Effect</a></td>
+      </tr>
+    </table>
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--INLETS-->
+  <inletlist>
+    <inlet id="0" type="message">
+      <digest>Cue control: <m>start</m>, <m>end</m>, <m>kill</m>, <m>bang</m></digest>
+      <description>Can I have a description here?</description>
+    </inlet>
+    <inlet id="1" type="float">
+      <digest>Cue variables, if present; as many inlets as there are variables</digest>
+      <description>Can I have a description here?</description>
+    </inlet>
+  </inletlist>
+
+  <!--OUTLETS-->
+  <outletlist>
+    <outlet id="0" type="message">
+      <digest>Cue status: <m>started</m>, <m>ending</m>, or
+      <m>ended</m>, then effect ID and cue name</digest>
+    </outlet>
+    <outlet id="1" type="float">
+      <digest>Cue variables, if present. As many outlets as there are variables</digest>
+    </outlet>
+  </outletlist>
+	
+  <!--ARGUMENTS-->
+  <objarglist>
+    <objarg name="x" optional="0" type="int">
+      <digest>Column of the cue within the cue grid; if omitted, uses 0</digest>
+    </objarg>
+    <objarg name="y" optional="0" type="int">
+      <digest>Row of the cue within the cue grid; if omitted, uses 0</digest>
+    </objarg>
+  </objarglist>
+	
+  <!--MESSAGES-->
+  <methodlist>
+    <method name="float">
+      <arglist>
+	<arg name="new-value" optional="0" type="float" />
+      </arglist>
+      <digest>
+	Set cue variable value
+      </digest>
+      <description>
+	In all but left inlet: Sets the corresponding cue variable
+        (hover over the inlet to see the variable name). An inlet will
+        be created for each cue variable, in the same order found
+        within the <a
+        href="https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#creating-cues">:variables
+        list</a>.
+        <br />
+        <br />
+
+        If the cue is running when the <m>float</m> is
+        received, it will set the cue variable immediately, as well as
+        being recorded as the value to use for the variable when next
+        starting the cue. If the cue is not running, it will only be
+        recorded for next time (even if it is bound to a regular show
+        variable).
+        <br />
+        <br />
+        
+        Any numbers sent to the left inlet will be ignored.
+      </description>
+    </method>
+    <method name="bang">
+      <arglist />
+      <digest>
+	Function depends on inlet
+      </digest>
+      <description>
+	In left inlet: Transition cue to next state, as if an operator
+        had pressed the pad corresponding to the cue on a grid
+        controller. If the cue was inactive, <m>start</m> it. If it was
+        running, ask it to <m>end</m>. If it had already been asked to end
+        but is still winding down, <m>kill</m> it.
+	<br />
+	<br />
+
+	In other inlets: Reports the most recent <m>float</m> value
+        received by this inlet on the outlet below. If no value has
+        been received, simply sends a <m>bang</m> on the outlet below.
+      </description>
+    </method>
+    <method name="start">
+      <arglist />
+      <digest>
+	Start the cue
+      </digest>
+      <description>
+        In left inlet: Starts the cue, if it is not already active. If
+        it is in the process of ending, starts a fresh instance. If it
+        is running and not ending, has no effect.
+        <br />
+        <br />
+
+        Other inlets cannot respond to this message.
+      </description>
+    </method>
+    <method name="end">
+      <arglist>
+	<arg name="effect-id" optional="1" type="int" />
+      </arglist>
+      <digest>
+	Ask the cue to end
+      </digest>
+      <description>
+        In left inlet: Tells the cue to end gracefully, if it is
+        currently running. If it is already in the process of ending,
+        stops it abruptly. Has no effect it is not running at all.
+        <br />
+        <br />
+
+        If <ar>effect-id</ar> is specified, the message will take
+        effect only if an effect with the specified ID is still
+        running. The effect ID can be determined from the first
+        argument of the <m>started</m> message which is sent from the
+        left outlet each time the cue is started.
+        <br />
+        <br />
+
+        Other inlets cannot respond to this message.
+      </description>
+    </method>
+    <method name="kill">
+      <arglist>
+	<arg name="effect-id" optional="1" type="int" />
+      </arglist>
+      <digest>
+	Forcibly and abruptly end the cue
+      </digest>
+      <description>
+        In left inlet: Stops the cue immediately if it is currently
+        running, whether or not in the process of ending. Has no
+        effect it is not running at all.
+        <br />
+        <br />
+
+        If <ar>effect-id</ar> is specified, the message will take
+        effect only if an effect with the specified ID is still
+        running. The effect ID can be determined from the first
+        argument of the <m>started</m> message which is sent from the
+        left outlet each time the cue is started.
+        <br />
+        <br />
+
+        Other inlets cannot respond to this message.
+      </description>
+    </method>
+
+    <method name="started">
+      <arglist>
+        <arg name="where" optional="0" type="symbol" />
+	<arg name="effect-id" optional="0" type="int" />
+	<arg name="effect-name" optional="0" type="String" />
+      </arglist>
+      <digest>
+	Reports the cue has started
+      </digest>
+      <description>
+        Sent from left outlet. Tells any listeners that the cue has
+        been started, whether by Max, or some other control mechanism.
+        <br />
+        <br />
+
+        The <ar>where</ar> argument will be "here" if the cue was
+        started by this <o>Cue</o> object in Max, and "elsewhere" if it was
+        started by a different <o>Cue</o> object, or a completely different
+        controller or other code.
+        <br />
+        <br />
+
+        The <ar>effect-id</ar> argument is a unique ID assigned to
+        this instance of an effect. It can be used with the <m>end</m>
+        and <m>kill</m> messages to make them apply to only this
+        effect, and not accidentally kill another instance of the cue
+        started later or by another object.
+      </description>
+    </method>
+    <method name="ending">
+      <arglist>
+	<arg name="effect-id" optional="0" type="int" />
+	<arg name="effect-name" optional="0" type="String" />
+      </arglist>
+      <digest>
+	Reports the cue is ending gracefully
+      </digest>
+      <description>
+        Sent from left outlet. Tells any listeners that the cue is
+        in the process of ending, which may take a little while as
+        it goes through its final looks.
+        <br />
+        <br />
+
+        The <ar>effect-id</ar> argument is a unique ID assigned to
+        this instance of an effect. It can be used with the <m>end</m>
+        and <m>kill</m> messages to make them apply to only this
+        effect, and not accidentally kill another instance of the cue
+        started later.
+      </description>
+    </method>
+    <method name="ended">
+      <arglist>
+	<arg name="effect-id" optional="0" type="int" />
+	<arg name="effect-name" optional="0" type="String" />
+      </arglist>
+      <digest>
+	Reports the cue has ended
+      </digest>
+      <description>
+        Sent from left outlet. Tells any listeners that the cue is
+        no longer running.
+        <br />
+        <br />
+
+        The <ar>effect-id</ar> argument is a unique ID assigned to
+        this instance of an effect. It can be used with the <m>end</m>
+        and <m>kill</m> messages to make them apply to only this
+        effect, and not accidentally kill another instance of the cue
+        started later.
+      </description>
+    </method>
+  </methodlist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Eval"/>
+    <seealso name="afterglow.max.Metro"/>
+    <seealso name="afterglow.max.Var"/>
+  </seealsolist>
+</c74object>

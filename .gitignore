@@ -9,3 +9,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+MaxPackage/afterglow-max/logs
+MaxPackage/afterglow-max/java-classes/lib/afterglow-max.jar

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.max.Eval" module="max" category="afterglow-max, DMX Light Shows">
+  <digest>
+    Evaluate a Clojure expression within Afterglow
+  </digest>
+	
+  <description>
+    Allows the evaluation of a preconfigured Clojure expression when a
+    <m>bang</m> is received, or an arbitrary expression sent as a
+    string argument to an <m>eval</m> message. Each instance maintains
+    its own evaluation context and thread-local bindings (for things
+    like *ns*, the current namespace, etc.) with the help of the
+    Afterglow <a
+    href="http://deepsymmetry.org/afterglow/doc/afterglow.web.routes.web-repl.html">web
+    REPL</a> implementation, but unlike an actual web REPL, there is
+    no session to expire. The bindings are kept around as long as the
+    object exists in an active Max patcher.
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--INLETS-->
+  <inletlist>
+    <inlet id="0" type="message">
+      <digest>Evaluate: <m>eval</m>, <m>bang</m></digest>
+    </inlet>
+  </inletlist>
+
+  <!--OUTLETS-->
+  <outletlist>
+    <outlet id="0" type="message">
+      <digest>Result of evaluating the expression</digest>
+    </outlet>
+  </outletlist>
+	
+  <!--ARGUMENTS-->
+  <objarglist>
+    <objarg name="default-expression" optional="1" type="String">
+      <digest>A default expression to be evaluated when <m>bang</m> is received</digest>
+    </objarg>
+  </objarglist>
+	
+  <!--MESSAGES-->
+  <methodlist>
+    <method name="eval">
+      <arglist>
+	<arg name="expression" optional="0" type="String" />
+      </arglist>
+      <digest>
+	Evaluate a Clojure expression
+      </digest>
+      <description>
+	Evaluate the Clojure expression argument within the Afterglow
+        environment, and send the result to the outlet.
+      </description>
+    </method>
+    <method name="bang">
+      <arglist />
+      <digest>
+	Evaluate default expression
+      </digest>
+      <description>
+        Evaluate the expression that was given as the default within
+        the Afterglow environment, and send the result to the outlet.
+      </description>
+    </method>
+  </methodlist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Cue"/>
+    <seealso name="afterglow.max.Metro"/>
+    <seealso name="afterglow.max.Var"/>
+  </seealsolist>
+</c74object>

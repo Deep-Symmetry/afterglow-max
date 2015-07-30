@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.cue.aim.example" module="max" category="afterglow-max">
+  <digest>
+    Control an Aim cue using a pair of sliders
+  </digest>
+	
+  <description>
+    Controls a cue running an <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#aim-effects">Aim
+    Effect</a> using a two-dimensional X-Z and a regular Y slider to set
+    cue variables used to create the effect's <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/parameters.adoc#aim-parameters">Aim
+    Parameter</a>.
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Cue"/>
+  </seealsolist>
+</c74object>
