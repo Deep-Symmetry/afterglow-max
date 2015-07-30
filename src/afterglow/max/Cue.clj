@@ -156,7 +156,8 @@
 (defn -post-init
   "The post-init phase of the constructors tells Max about the inlets
   and outlets supported by this object, and registers our interest in
-  cue state with Afterglow."
+  cue state with Afterglow, setting up the function which sends
+  reports on the cue state outlet."
   [this x y]
   (let [type-string (str "m" (cue-variable-type-string this))
         cue-name (get-in @(.state this) [:cue :name])
@@ -170,7 +171,12 @@
 
     ;; Set up the callback function for changes to cue state
     (let [f (fn [new-state _ id]
-              (.outlet this 0 (name new-state) (into-array Atom [(Atom/newAtom id) (Atom/newAtom cue-name)]))
+              (.outlet this 0 (name new-state)
+                       (into-array Atom (concat (when (= :started new-state)
+                                                  [(Atom/newAtom (if (= id (:we-started @(.state this)))
+                                                                   "here"
+                                                                   "elsewhere"))])
+                                                [(Atom/newAtom id) (Atom/newAtom cue-name)])))
               (case new-state
                 :started (watch-cue-local-variables this)
                 :ended (unwatch-cue-local-variables this)
@@ -194,7 +200,8 @@
   (let [{:keys [x y]} @(.state this)
         [_ active] (show/find-cue-grid-active-effect *show* x y)]
     (when-not (and active (not (:ending active)))
-      (show/add-effect-from-cue-grid! x y :var-overrides (:variables @(.state this))))))
+      (let [id (show/add-effect-from-cue-grid! x y :var-overrides (:variables @(.state this)))]
+        (swap! (.state this) assoc :we-started id)))))
 
 (defn -end
   "Ask the cue to end; if it has already been asked once, kill it
