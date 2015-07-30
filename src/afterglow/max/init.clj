@@ -18,3 +18,11 @@
   [filename]
   (load-file (.getPath (clojure.java.io/file @init-dir filename))))
 
+(defn get-log-path
+  "Makes sure the logs directory exists, and returns its path."
+  []
+  (let [pkg-dir (.getParentFile @init-dir)
+        log-dir (clojure.java.io/file pkg-dir "logs")
+        log-file (clojure.java.io/file log-dir "afterglow.log")]
+    (clojure.java.io/make-parents log-file)
+    (.getAbsolutePath log-file)))
