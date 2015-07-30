@@ -22,7 +22,7 @@
 
   :plugins [[codox "0.8.12"]
             [lein-environ "1.0.0"]
-            [lein-ancient "0.6.7"]]
+            [lein-ancient "0.6.8-SNAPSHOT"]]
 
   :codox {:src-dir-uri "http://github.com/brunchboy/afterglow-max/blob/master/"
           :src-linenum-anchor-prefix "L"
