@@ -22,7 +22,6 @@
   "Makes sure the logs directory exists, and returns its path."
   []
   (let [pkg-dir (.getParentFile @init-dir)
-        log-dir (clojure.java.io/file pkg-dir "logs")
-        log-file (clojure.java.io/file log-dir "afterglow.log")]
+        log-file (clojure.java.io/file pkg-dir "logs" "afterglow.max.log")]
     (clojure.java.io/make-parents log-file)
     (.getAbsolutePath log-file)))
