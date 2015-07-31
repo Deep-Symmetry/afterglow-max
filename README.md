@@ -19,14 +19,16 @@ Controls a single Afterglow
 based on its coordinates in the
 [Cue Grid](https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#the-cue-grid),
 and sends updates about changes to its state. Lets you set initial
-values for cue variables when the cue is triggerd by this object, and
-adjust their values while the cue is running. Sends updates about
-changes to those variables to its outlets while the cue is running,
-whether or not the changes came from within Max.
+values for cue variables when the cue is started by this object, and
+adjust their values while the cue is running regardless of how it was
+started. Sends updates about changes to those variables to its outlets
+while the cue is running, whether or not the changes came from within
+Max.
 
 ![mxj afterglow.max.Cue](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Cue.png)
 
-For more details, see the Help patcher and Reference within Max.
+For more details, see the Help patcher, full Reference, and Examples
+within Max.
 
 ### mxj afterglow.max.Eval
 
@@ -41,7 +43,8 @@ Ableton Push controller.
 
 ![mxj afterglow.max.Eval](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Eval.png)
 
-For more details, see the Help patcher and Reference within Max.
+For more details, see the Help patcher, full Reference, and Examples
+within Max.
 
 ## Installation
 
