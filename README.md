@@ -4,6 +4,45 @@ A package for hosting
 [Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
 [Cycling ‘74’s Max](https://cycling74.com).
 
+## Usage
+
+The afterglow-max package provides a number of objects for monitoring
+and controlling lighting cues. They are all based on the `mxj` object
+since they are implemented in [Clojure](http://clojure.org/), like
+afterglow itself, and rely on the Java virtual machine environment
+that Max provides.
+
+### mxj afterglow.max.Cue
+
+Controls a single Afterglow
+[Cue](https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#cues),
+based on its coordinates in the
+[Cue Grid](https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#the-cue-grid),
+and sends updates about changes to its state. Lets you set initial
+values for cue variables when the cue is triggerd by this object, and
+adjust their values while the cue is running. Sends updates about
+changes to those variables to its outlets while the cue is running,
+whether or not the changes came from within Max.
+
+![mxj afterglow.max.Cue](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Cue.png)
+
+For more details, see the Help patcher and Reference within Max.
+
+### mxj afterglow.max.Eval
+
+Evaluates Clojure expressions within the Afterglow context. Combined
+with message objects, gives you an easy way to make Afterglow do
+things that haven't been worth creating a special object for yet.
+Useful examples in the Help patcher include starting and opening the
+[web interface](https://github.com/brunchboy/afterglow/blob/master/doc/README.adoc#the-embedded-web-interface),
+enabling a connection from a full-featured Clojure development
+environment for debugging custom effects, and activating an attached
+Ableton Push controller.
+
+![mxj afterglow.max.Eval](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Eval.png)
+
+For more details, see the Help patcher and Reference within Max.
+
 ## Installation
 
 1. [Install OLA](https://www.openlighting.org/ola/getting-started/downloads/).
@@ -34,7 +73,7 @@ A package for hosting
 3. Download a release (this will be a link as soon as the first
    release happens), unzip it, and install the `afterglow-max` folder
    into Max's `Max 7/Packages` folder (in your `Documents` folder).
-   Afterglow may also work with Max 6, or even Pure Data, but it
+   afterglow-max may also work with Max 6, or even Pure Data, but it
    hasn't been tested with them. If you try, please let us know how it
    goes on the [Wiki](https://github.com/brunchboy/afterglow-max/wiki)!
 
@@ -56,28 +95,6 @@ Packages folder as described in the last Installation step above.
 > folder inside your Max Packages folder to avoid having to copy it
 > from the repository every time you want to use an updated version in
 > Max. The compiled jar file is set up to be ignored by git.
-
-## Usage
-
-The afterglow-max package provides a number of objects for monitoring
-and controlling lighting cues. They are all based on the `mxj` object
-since they are implemented in [Clojure](http://clojure.org/), like
-afterglow itself, and rely on the Java virtual machine environment
-that Max provides.
-
-### mxj afterglow.max.Cue
-
-Controls a single Afterglow
-[Cue](https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#cues),
-based on its coordinates in the
-[Cue Grid](https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#the-cue-grid),
-and sends updates about changes to its state. Lets you set initial
-values for cue variables when the cue is triggerd by this object, and
-adjust their values while the cue is running. Sends updates about
-changes to those variables to its outlets while the cue is running,
-whether or not the changes came from within Max.
-
-![mxj afterglow.max.Cue](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Cue.png)
 
 ## License
 
