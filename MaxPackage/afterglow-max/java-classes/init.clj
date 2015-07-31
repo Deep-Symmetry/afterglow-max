@@ -70,5 +70,5 @@
   (show/patch-fixture! :hyp-rgb (adj/hypnotic-rgb) universe 45)
   '*show*)
 
-(use-demo-show :universe 1)
+(use-demo-show)
 (examples/make-cues)
