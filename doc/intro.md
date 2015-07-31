@@ -1,3 +1,5 @@
-# Introduction to afterglow-max
+# Please see the Max help
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+Like other Max packages, the documentation is implemented as active
+Help patchers, reference pages, and examples, which you can look at,
+try out, and modify to explore how it all works.
