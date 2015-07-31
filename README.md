@@ -27,8 +27,7 @@ Max.
 
 ![mxj afterglow.max.Cue](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Cue.png)
 
-For more details, see the Help patcher, full Reference, and Examples
-within Max.
+For more details, see the Help patcher and full Reference within Max.
 
 ### mxj afterglow.max.Eval
 
