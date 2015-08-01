@@ -27,7 +27,8 @@ Max.
 
 ![mxj afterglow.max.Cue](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Cue.png)
 
-For more details, see the Help patcher and full Reference within Max.
+For more details, see the Help patcher, full Reference, and Examples
+within Max.
 
 ### mxj afterglow.max.Eval
 
@@ -42,8 +43,15 @@ Ableton Push controller.
 
 ![mxj afterglow.max.Eval](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Eval.png)
 
-For more details, see the Help patcher, full Reference, and Examples
-within Max.
+For more details, see the Help patcher and full Reference within Max.
+
+### mxj afterglow.max.Var
+
+Sets and monitors the value of an Afterglow show variable.
+
+![mxj afterglow.max.Var](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Var.png)
+
+For more details, see the Help patcher and full Reference within Max.
 
 ## Installation
 

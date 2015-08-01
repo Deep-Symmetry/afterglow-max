@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.max.Var" module="max" category="afterglow-max, DMX Light Shows">
+  <digest>
+    Set and monitor an Afterglow show variable
+  </digest>
+	
+  <description>
+    Allows the value of a show variable to be set via <m>int</m> or
+    <m>float</m> messages to the inlet. Any changes to the variable,
+    whether they came from Max or elsewhere, will cause the new value
+    to be sent as an <m>int</m> or <m>float</m> message from the
+    outlet. The value can also be queried by sending a <m>bang</m>
+    message to the inlet, which will send the current variable value
+    to the outlet. If the variable has no current value, a <m>bang</m>
+    will be sent instead.
+
+    The variable to control and monitor is determined by the single
+    argument to the object.
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--INLETS-->
+  <inletlist>
+    <inlet id="0" type="message">
+      <digest>Set: <m>int</m>, <m>float</m>; Query: <m>bang</m></digest>
+    </inlet>
+  </inletlist>
+
+  <!--OUTLETS-->
+  <outletlist>
+    <outlet id="0" type="message">
+      <digest>Current value: <m>int</m>, <m>float</m>; Empty: <m>bang</m></digest>
+    </outlet>
+  </outletlist>
+	
+  <!--ARGUMENTS-->
+  <objarglist>
+    <objarg name="variable" optional="0" type="String">
+      <digest>The name of the variable within the show.</digest>
+    </objarg>
+  </objarglist>
+	
+  <!--MESSAGES-->
+  <methodlist>
+    <method name="int">
+      <arglist>
+	<arg name="new-value" optional="0" type="int" />
+      </arglist>
+      <digest>
+	Set variable value
+      </digest>
+      <description>
+	Sets the value of the show variable to the argument.
+      </description>
+    </method>
+    <method name="float">
+      <arglist>
+	<arg name="new-value" optional="0" type="float" />
+      </arglist>
+      <digest>
+	Set variable value
+      </digest>
+      <description>
+	Sets the value of the show variable to the argument.
+      </description>
+    </method>
+    <method name="bang">
+      <arglist />
+      <digest>
+	Query variable value
+      </digest>
+      <description>
+        Sends the current value of the variable from the outlet as an
+        <m>int</m> or <m>float</m> message. If the variable has no
+        current value, sends a <m>bang</m> instead.
+      </description>
+    </method>
+  </methodlist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Cue"/>
+    <seealso name="afterglow.max.Eval"/>
+    <seealso name="afterglow.max.FrameBang"/>
+    <seealso name="afterglow.max.Metro"/>
+  </seealsolist>
+</c74object>

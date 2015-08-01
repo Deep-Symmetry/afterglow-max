@@ -156,8 +156,9 @@
 (defn -post-init
   "The post-init phase of the constructors tells Max about the inlets
   and outlets supported by this object, and registers our interest in
-  cue state with Afterglow, setting up the function which sends
-  reports on the cue state outlet."
+  cue state with Afterglow, setting up the functions which send
+  reports on the cue state outlet and on any variable outlets which
+  are bound to permanent show variables."
   [this x y]
   (let [type-string (str "m" (cue-variable-type-string this))
         cue-name (get-in @(.state this) [:cue :name])

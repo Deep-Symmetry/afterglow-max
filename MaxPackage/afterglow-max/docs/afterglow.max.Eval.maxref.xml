@@ -78,6 +78,7 @@
   <!--SEEALSO-->
   <seealsolist>
     <seealso name="afterglow.max.Cue"/>
+    <seealso name="afterglow.max.FrameBang"/>
     <seealso name="afterglow.max.Metro"/>
     <seealso name="afterglow.max.Var"/>
   </seealsolist>

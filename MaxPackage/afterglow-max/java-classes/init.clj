@@ -29,11 +29,7 @@
                                         (when s
                                           (show/unregister-show s)
                                           (with-show s (show/stop!)))
-                                        (show/show :universes [universe]))))
-
-  ;; TODO: Should this be automatic? If so, creating the show should assign the name too.
-  ;; Register it with the web interface.
-  (show/register-show *show* "Demo Show")
+                                        (show/show :universes [universe] :description "Max Demo Show"))))
 
   ;; Throw a couple of fixtures in there to play with. For better fun, use
   ;; fixtures and addresses that correspond to your actual hardware.

@@ -271,6 +271,7 @@
   <!--SEEALSO-->
   <seealsolist>
     <seealso name="afterglow.max.Eval"/>
+    <seealso name="afterglow.max.FrameBang"/>
     <seealso name="afterglow.max.Metro"/>
     <seealso name="afterglow.max.Var"/>
   </seealsolist>
