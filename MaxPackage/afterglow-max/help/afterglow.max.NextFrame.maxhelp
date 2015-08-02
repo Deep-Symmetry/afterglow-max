@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 100.0, 100.0, 576.0, 497.0 ],
+		"rect" : [ 498.0, 163.0, 580.0, 492.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -57,9 +57,9 @@
 				"box" : 				{
 					"id" : "obj-2",
 					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "int" ],
 					"patching_rect" : [ 227.5, 410.0, 152.0, 22.0 ],
 					"style" : "",
 					"text" : "mxj afterglow.max.Cue 2 1"
@@ -335,7 +335,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 10.0, 11.0, 548.0, 108.0 ]
+					"patching_rect" : [ 10.0, 11.0, 557.0, 122.0 ]
 				}
 
 			}
@@ -445,6 +445,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-4", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-2", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 0 ]
 				}
 
 			}

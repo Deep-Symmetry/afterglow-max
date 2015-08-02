@@ -34,8 +34,8 @@ within Max.
 
 Evaluates Clojure expressions within the Afterglow context. Combined
 with message objects, gives you an easy way to make Afterglow do
-things that haven't been worth creating a special object for yet.
-Useful examples in the Help patcher include starting and opening the
+things that aren't worth creating special objects for. Useful examples
+in the Help patcher include starting and opening the
 [web interface](https://github.com/brunchboy/afterglow/blob/master/doc/README.adoc#the-embedded-web-interface),
 enabling a connection from a full-featured Clojure development
 environment for debugging custom effects, and activating an attached
