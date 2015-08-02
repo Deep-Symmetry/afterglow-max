@@ -45,6 +45,15 @@ Ableton Push controller.
 
 For more details, see the Help patcher and full Reference within Max.
 
+### mxj afterglow.max.Metro
+
+Adjust and query an Afterglow
+https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes[Metronome].
+
+![mxj afterglow.max.Var](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Metro.png)
+
+For more details, see the Help patcher and full Reference within Max.
+
 ### mxj afterglow.max.NextFrame
 
 Sends information about when Afterglow is next going to generate

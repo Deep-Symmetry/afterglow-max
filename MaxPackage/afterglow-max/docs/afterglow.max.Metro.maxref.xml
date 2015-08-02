@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.max.Metro" module="max" category="afterglow-max, DMX Light Shows">
+  <digest>
+    Adjust and query an Afterglow Metronome
+  </digest>
+	
+  <description>
+    Allows you to set the tempo and other parameters of a <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes">Metronome</a>
+    object (either the default show metronome, or one stored in a
+    named show variable).
+    <br/>
+    <br/>
+
+    The left inlet controls the metronome's tempo, in terms of beats
+    per minute. A <m>float</m> or <m>int</m> directly sets the BPM
+    value, while a series of <m>tap</m> messages can establish a BPM
+    by their actual timing. Sending a <m>bang</m> message outputs the
+    current BPM to the first outlet (and causes all other outlets to
+    send their timing information as well), without changing it. Note
+    that if the metronome is currently synchronized with a tempo
+    source within Afterglow (such as MIDI clock or Pioneer Pro DJ
+    Link), attempts to alter its BPM via this inlet will be ignored.
+    <br/>
+    <br/>
+
+    The second inlet controls the current phrase number being counted
+    by the metronome. Sending an <m>int</m> message sets the phrase
+    number directly. Sending a <m>tap</m> message indicates that a
+    phrase is starting right now, and the nearest phrase boundary will
+    be moved so that it has just started. A <m>bang</m> message
+    outputs the current phrase to the second outlet (and causes all
+    other outlets to send their timing information as well), without
+    changing it.
+    <br/>
+    <br/>
+
+    The third inlet controls the current bar within the phrase being
+    counted by the metronome. Sending an <m>int</m> message sets the
+    bar number directly. Sending a <m>tap</m> message indicates that a
+    bar is starting right now, and the nearest bar boundary will be
+    moved so that it has just started. A <m>bang</m> message outputs
+    the current bar to the third outlet (and cause all other outlets
+    to send their timing information as well), without changing it.
+    <br/>
+    <br/>
+
+    The right inlet controls the current beat within the bar being
+    counted by the metronome. Sending an <m>int</m> message sets the
+    beat number directly. Sending a <m>tap</m> message indicates that
+    a beat is starting right now, and the nearest beat boundary will
+    be moved so that it has just started. A <m>bang</m> message
+    outputs the current beat to the fourth outlet (and causes all
+    other outlets to send their timing information as well), without
+    changing it. Note that if the metronome is currently synchronized
+    with a beat grid within Afterglow (such as Pioneer Pro DJ Link),
+    attempts to move the beat starting time via this inlet will be
+    ignored.
+    <br/>
+    <br/>
+
+    The right outlet sends a <m>list</m> containing the <i>phases</i>
+    that have been reached within the phrase, bar, and beat. Phases
+    are <m>float</m> values that range from 0.0, at the very start of
+    the interval, approaching (but never quite reaching) 1.0, as the
+    next interval approaches. Once the next beat, bar, or phrase
+    starts, of course, the phase returns to zero. Phases are very
+    useful for generating effects; see the <openfilelink
+    filename="afterglow.max.NextFrame.maxhelp">NextFrame</openfilelink>
+    Help for an example. These phases will be sent whenever any inlet
+    receives a <m>bang</m>.
+    <br/>
+    <br/>
+
+    If an argument is given, it is used as the name of a show variable
+    in which a Metronome will be looked up. With no argument, the
+    show's default metronome is used.
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--INLETS-->
+  <inletlist>
+    <inlet id="0" type="message">
+      <digest>int, float: set BPM; tap: learn BPM; bang: send state</digest>
+    </inlet>
+    <inlet id="1" type="message">
+      <digest>int: set phrase; tap: start phrase; bang: send state</digest>
+    </inlet>
+    <inlet id="2" type="message">
+      <digest>int: set bar; tap: start bar; bang: send state</digest>
+    </inlet>
+    <inlet id="3" type="message">
+      <digest>int: set beat; tap: start beat; bang: send state</digest>
+    </inlet>
+  </inletlist>
+
+  <!--OUTLETS-->
+  <outletlist>
+    <outlet id="0" type="float">
+      <digest>current BPM</digest>
+    </outlet>
+    <outlet id="1" type="int">
+      <digest>current phrase number</digest>
+    </outlet>
+    <outlet id="2" type="int">
+      <digest>current bar within phrase</digest>
+    </outlet>
+    <outlet id="3" type="int">
+      <digest>current beat within bar</digest>
+    </outlet>
+    <outlet id="4" type="list">
+      <digest>phrase phase, bar phase, beat phase</digest>
+    </outlet>
+  </outletlist>
+	
+  <!--ARGUMENTS-->
+  <objarglist>
+    <objarg name="variable" optional="1" type="String">
+      <digest>The name of a variable within the show containing the
+      metronome. If omitted, use the default metronome of the
+      show.</digest>
+    </objarg>
+  </objarglist>
+	
+  <!--MESSAGES-->
+  <methodlist>
+    <method name="bang">
+      <arglist />
+      <digest>
+        Send current state
+      </digest>
+      <description>
+        Regardless of the inlet to which it is sent, causes all
+        outlets to send current timing information.
+      </description>
+    </method>
+    <method name="float">
+      <arglist>
+	<arg name="new-value" optional="0" type="float" />
+      </arglist>
+      <digest>
+        Set current BPM in first inlet
+      </digest>
+      <description>
+	Sets the current tempo in beats per minute when set to the
+        first inlet. If the metronome is synchronized to an external
+        tempo source, attempts to set the BPM will be ignored. Other
+        inlets only respond to <m>int</m> messages, so <m>float</m>
+        values sent to them will be truncated to integers and sent
+        that way.
+      </description>
+    </method>
+    <method name="int">
+      <arglist>
+	<arg name="new-value" optional="0" type="int" />
+      </arglist>
+      <digest>
+        Set current value, meaning depends on inlet
+      </digest>
+      <description>
+	Sets the value of the corresponding metronome parameter. Each
+        inlet interprets it appropriately; see the inlet descriptions
+        for details. If the metronome is synchronized to an external
+        tempo source, attempts to set the BPM will be ignored.
+      </description>
+    </method>
+    <method name="tap">
+      <arglist />
+      <digest>
+	Indicate timing, meaning depends on inlet
+      </digest>
+      <description>
+        Provides a tap-tempo mechanism for adjusting the tempo based
+        on external timing signals when sent to the first inlet. For
+        the other inlets, indicates that the associated interval (a
+        phrase, bar, or beat) has just started, so the nearest
+        boundary will be moved to start now. If the metronome is
+        currently synchronized with a tempo source or beat grid within
+        Afterglow (such as MIDI clock or Pioneer Pro DJ Link), taps on
+        some inlets will be ignored, as described in their
+        documentation.
+      </description>
+    </method>
+  </methodlist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Cue"/>
+    <seealso name="afterglow.max.Eval"/>
+    <seealso name="afterglow.max.NextFrame"/>
+    <seealso name="afterglow.max.Var"/>
+  </seealsolist>
+</c74object>
