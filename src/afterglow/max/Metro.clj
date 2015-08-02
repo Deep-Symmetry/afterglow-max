@@ -96,7 +96,7 @@
   [this bar]
   (let [metro (:metronome (.state this))
         snap (rhythm/metro-snapshot metro)
-        bar (mod bar (:bpp metro))
+        bar (mod bar (:bpp snap))
         delta (- (rhythm/snapshot-bar-within-phrase snap) bar)]
     (when-not (zero? delta)
       (rhythm/metro-adjust metro (* delta (rhythm/metro-tock metro))))))
@@ -106,7 +106,7 @@
   [this beat]
   (let [metro (:metronome (.state this))
         snap (rhythm/metro-snapshot metro)
-        beat (mod beat (:bpb metro))
+        beat (mod beat (:bpb snap))
         delta (- (rhythm/snapshot-beat-within-bar snap) beat)]
     (when-not (zero? delta)
       (rhythm/metro-adjust metro (* delta (rhythm/metro-tick metro))))))
@@ -119,7 +119,8 @@
     0 (set-bpm this new-value)
     1 (rhythm/metro-phrase-start (:metronome (.state this)) new-value)
     2 (set-bar this new-value)
-    3 (set-beat this new-value)))
+    3 (set-beat this new-value))
+  (-bang this))
 
 ;; TODO: accept a list in the first inlet, to set the bars per phrase and beats per bar as well as BPM.
 
@@ -128,7 +129,8 @@
   parameter."
   [this new-value]
   (if (zero? (.parentGetInlet this))
-    (set-bpm this new-value)
+    (do (set-bpm this new-value)
+        (-bang this))
     (-inlet-int this (int new-value))))
 
 (defn interpret-tempo-tap
@@ -149,7 +151,7 @@
     (when (#{:manual :midi} (:type (show/sync-status)))
       (rhythm/metro-beat-phase (:metronome (.state this)) 0))))
 
-(defn tap
+(defn -tap
   "Respond to a tap message, adjusting the corresponding metronome
   parameter."
   [this]
@@ -158,4 +160,5 @@
       0 (interpret-tempo-tap this)
       1 (rhythm/metro-phrase-start metro (rhythm/metro-phrase metro))
       2 (rhythm/metro-bar-start metro (rhythm/metro-bar metro))
-      3 (interpret-beat-tap this))))
+      3 (interpret-beat-tap this)))
+  (-bang this))
