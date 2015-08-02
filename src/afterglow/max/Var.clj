@@ -45,9 +45,9 @@
   [k]
   (core/init)
   (when (nil? *show*)
-    (throw (IllegalStateException. "Cannot create Cue object: No default show has been established.")))
+    (throw (IllegalStateException. "Cannot create Var object: No default show has been established.")))
   (when (clojure.string/blank? k)
-    (throw (IllegalStateException. "Cannot create Cue object: No variable name provided.")))
+    (throw (IllegalStateException. "Cannot create Var object: No variable name provided.")))
   [[] (atom {:key (keyword k)})])
 
 (defn send-numeric-value
