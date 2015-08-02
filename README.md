@@ -45,6 +45,17 @@ Ableton Push controller.
 
 For more details, see the Help patcher and full Reference within Max.
 
+### mxj afterglow.max.NextFrame
+
+Send information about the time at which Afterglow is about to
+generate and send control values to the lights, allowing patchers to
+set up appropriate context, such as adjusting cue variables to be used
+in creating the frame.
+
+![mxj afterglow.max.Var](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/NextFrame.png)
+
+For more details, see the Help patcher and full Reference within Max.
+
 ### mxj afterglow.max.Var
 
 Sets and monitors the value of an Afterglow show variable.

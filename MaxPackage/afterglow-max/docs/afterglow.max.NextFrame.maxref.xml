@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name="afterglow.max.NextFrame" module="max" category="afterglow-max, DMX Light Shows">
+  <digest>
+    Provide information to prepare for the next Afterglow frame
+  </digest>
+	
+  <description>
+    Sends information about the next frame of the light show that
+    Afterglow is going to generate, so cue variables and other context
+    can be prepared.
+    <br/>
+    <br/>
+
+    As soon as Afterglow has decided when the next frame will occur,
+    the leftmost outlet sends a <m>list</m> containing three
+    <m>int</m> values, which identify the phrase, bar within that
+    phrase, and beat within that bar, during which the frame will
+    occur. (These values are calculated by the <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes">Metronome</a>
+    attached to the show.)
+    <br/>
+    <br/>
+
+    The middle outlet sends a <m>list</m> containing the <i>phases</i>
+    that will have been reached within the phrase, bar, and beat.
+    Phases are <m>float</m> values that range from 0.0, at the very
+    start of the interval, approaching (but never quite reaching) 1.0,
+    as the next interval approaches. Once it starts, of course, the
+    phase returns to zero. Phases are very useful for generating
+    effects; the Help patcher for this object shows how to use the
+    beat phase to desaturate a cue over the duration of each beat.
+    (You can do this all in Clojure code within Afterglow itself, of
+    course, slightly more efficiently, but the purpose of this object
+    is to let you achieve the same kinds of results within Max, and
+    use tools that you may already have within the Max environment.)
+    <br/>
+    <br/>
+
+    The right outlet sends a <m>list</m> containing the current BPM of the
+    metronome (a <m>float</m>), the number of beats in each bar, and the
+    number of bars in each phrase (both <m>int</m> values).
+    <br/>
+    <br/>
+
+    There is currently an inlet, because Max crashes when I try to
+    tell it not to create one, but the inlet serves no purpose, and is
+    ignored.
+    <br/>
+    <br/>
+
+    The NextFrame object takes no arguments. It will send messages
+    whenever the show is running.
+  </description>
+	
+  <!--METADATA-->
+  <metadatalist>
+    <metadata name="author">James Elliott, Deep Symmetry, LLC</metadata>
+    <metadata name="tag">DeepSymmetry</metadata>
+    <metadata name="tag">DMX</metadata>
+    <metadata name="tag">mxj</metadata>
+    <metadata name="tag">Light Shows</metadata>
+  </metadatalist>
+	
+  <!--INLETS-->
+  <inletlist>
+  </inletlist>
+
+  <!--OUTLETS-->
+  <outletlist>
+    <outlet id="0" type="list">
+      <digest>phrase, bar, beat</digest>
+    </outlet>
+    <outlet id="1" type="list">
+      <digest>phrase phase, bar phase, beat phase</digest>
+    </outlet>
+    <outlet id="2" type="list">
+      <digest>BPM, beats/bar, bars/phase</digest>
+    </outlet>
+  </outletlist>
+	
+  <!--ARGUMENTS-->
+  <objarglist>
+  </objarglist>
+	
+  <!--MESSAGES-->
+  <methodlist>
+  </methodlist>
+	
+  <!--SEEALSO-->
+  <seealsolist>
+    <seealso name="afterglow.max.Cue"/>
+    <seealso name="afterglow.max.Eval"/>
+    <seealso name="afterglow.max.Metro"/>
+    <seealso name="afterglow.max.NextFrame"/>
+  </seealsolist>
+</c74object>
