@@ -7,9 +7,10 @@
   </digest>
 	
   <description>
-    Sends information about the next frame of the light show that
-    Afterglow is going to generate, so cue variables and other context
-    can be prepared.
+    Sends information about when Afterglow is going to calculate and
+    send the next frame of control values to the lights, so cue
+    variables and other context can be prepared for use during that
+    process.
     <br/>
     <br/>
 
