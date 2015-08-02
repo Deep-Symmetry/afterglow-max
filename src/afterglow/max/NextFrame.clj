@@ -10,11 +10,18 @@
   to be rendered. Then the left outlet sends out a list of values
   describing the beat, bar, and phrase that will be in effect when
   that frame is rendered, followed by the beat phase, bar phase, and
-  phrase phase." {:doc/format :markdown}
+  phrase phase.
+
+  The inlet can be used to start or stop the
+  https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop[Rendering
+  Loop] of the show. Sending a `start` message makes sure it is
+  running; sending a `stop` message shuts it down and blacks out the
+  associated lighting universes. Sending a `bang` toggles between
+  those states."
+  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[] []}
-              :exposes-methods {declareInlets parentDeclareInlets
-                                declareOutlets parentDeclareOutlets
+              :exposes-methods {declareTypedIO parentDeclareTypedIO
                                 setInletAssist parentSetInletAssist
                                 setOutletAssist parentSetOutletAssist
                                 createInfoOutlet parentCreateInfoOutlet}
@@ -22,7 +29,8 @@
               :init init
               :post-init post-init
               :main false
-              :methods [])
+              :methods [[start [] void]
+                        [stop [] void]])
   (:require [afterglow.max.core :as core]
             [afterglow.rhythm :as rhythm]
             [afterglow.show :as show]
@@ -58,9 +66,8 @@
   and outlets supported by this object, and registers our function to
   get called with information about upcoming frames to be rendered."
   [this]
-  #_(.parentDeclareInlets this MaxObject/NO_INLETS)
-  (.parentDeclareOutlets this (into-array Integer/TYPE [DataTypes/LIST DataTypes/LIST DataTypes/LIST]))
-  (.parentSetInletAssist this (into-array String ["Input is ignored, but Max crashes without this inlet"]))
+  (.parentDeclareTypedIO this "m" "lll")
+  (.parentSetInletAssist this (into-array String ["start, stop: Control the Show"]))
   (.parentSetOutletAssist this (into-array String ["phrase, bar, beat"
                                                    "phrase phase, bar phase, beat phase"
                                                    "bpm, bpb, bpp"]))
@@ -70,6 +77,29 @@
   (let [f (fn [snapshot] (send-frame-update this snapshot))]
     (reset! (.state this) f)
     (show/add-frame-fn! f)))
+
+(defn -start
+  "Start the show's
+  https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop[Rendering
+  Loop] if it is not already running."
+  [this]
+  (show/start!))
+
+(defn -stop
+  "Stop the show's
+  https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop[Rendering
+  Loop] and black out all of its lighting universes."
+  [this]
+  (show/stop!)
+    (Thread/sleep (:refresh-interval *show*))
+    (show/blackout-show))
+
+(defn -bang
+  "Toggles the show between started and stopped."
+  [this]
+  (if (show/running?)
+    (-stop this)
+    (-start this)))
 
 (defn -notifyDeleted
   "The Max peer object has been deleted, so this instance is no longer

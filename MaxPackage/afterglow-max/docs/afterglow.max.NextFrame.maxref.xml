@@ -7,18 +7,30 @@
   </digest>
 	
   <description>
-    Sends information about when Afterglow is going to calculate and
-    send the next frame of control values to the lights, so cue
-    variables and other context can be prepared for use during that
-    process.
+    Gives advance warning about exactly when Afterglow is going to
+    calculate and send the next frame of control values to the lights,
+    so cue variables and other context can be prepared for that
+    process. Starts and stops the light show in response to incoming
+    <m>start</m> and <m>stop</m> messages.
     <br/>
     <br/>
 
-    As soon as Afterglow has decided when the next frame will occur,
-    the leftmost outlet sends a <m>list</m> containing three
-    <m>int</m> values, which identify the phrase, bar within that
-    phrase, and beat within that bar, during which the frame will
-    occur. (These values are calculated by the <a
+    Sending a <m>start</m> message to the inlet makes sure that the
+    show's <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop">Rendering
+    Loop</a> is active, and generating control signals to the
+    associated lighting universes. A <m>stop</m> message has the
+    opposite effect, shutting down an active show, and blacking out
+    the lighting universes. Sending a <m>bang</m> toggles between
+    these two states.
+    <br/>
+    <br/>
+
+    Whenever the show is running, as soon as Afterglow has decided
+    when the next frame will occur, the leftmost outlet sends a
+    <m>list</m> containing three <m>int</m> values, which identify the
+    phrase, bar within that phrase, and beat within that bar, during
+    which the frame will occur. (These values are calculated by the <a
     href="https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes">Metronome</a>
     attached to the show.)
     <br/>
@@ -28,26 +40,21 @@
     that will have been reached within the phrase, bar, and beat.
     Phases are <m>float</m> values that range from 0.0, at the very
     start of the interval, approaching (but never quite reaching) 1.0,
-    as the next interval approaches. Once it starts, of course, the
-    phase returns to zero. Phases are very useful for generating
-    effects; the Help patcher for this object shows how to use the
-    beat phase to desaturate a cue over the duration of each beat.
-    (You can do this all in Clojure code within Afterglow itself, of
-    course, slightly more efficiently, but the purpose of this object
-    is to let you achieve the same kinds of results within Max, and
-    use tools that you may already have within the Max environment.)
+    as the next interval approaches. Once the next beat, bar, or
+    phrase starts, of course, the phase returns to zero. Phases are
+    very useful for generating effects; the Help patcher for this
+    object shows how to use the beat phase to desaturate a cue over
+    the duration of each beat. (You can do this all in Clojure code
+    within Afterglow itself, of course, but the purpose of this object
+    is to let you achieve the same kinds of results within Max,
+    without writing Clojure code, and using cool tools and integration
+    opportunities that the Max environment gives you.)
     <br/>
     <br/>
 
     The right outlet sends a <m>list</m> containing the current BPM of the
     metronome (a <m>float</m>), the number of beats in each bar, and the
     number of bars in each phrase (both <m>int</m> values).
-    <br/>
-    <br/>
-
-    There is currently an inlet, because Max crashes when I try to
-    tell it not to create one, but the inlet serves no purpose, and is
-    ignored.
     <br/>
     <br/>
 
@@ -66,6 +73,9 @@
 	
   <!--INLETS-->
   <inletlist>
+    <inlet id="0" type="list">
+      <digest>start, stop, bang: control show</digest>
+    </inlet>
   </inletlist>
 
   <!--OUTLETS-->
@@ -87,6 +97,41 @@
 	
   <!--MESSAGES-->
   <methodlist>
+    <method name="bang">
+      <arglist />
+      <digest>
+        Toggle show running state
+      </digest>
+      <description>
+        If the show is running, acts like a <m>stop</m> message and
+        shuts it down. Otherwise acts like a <m>start</m> message and
+        starts it.
+      </description>
+    </method>
+    <method name="start">
+      <arglist />
+      <digest>
+	Start the show rendering loop
+      </digest>
+      <description>
+        Ensures that the show's <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop">Rendering
+        Loop</a> is active and generating control signals to the
+        associated lighting universes.
+      </description>
+    </method>
+    <method name="stop">
+      <arglist />
+      <digest>
+	Stop the show
+      </digest>
+      <description>
+        Shuts down the show's <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/rendering_loop.adoc#the-rendering-loop">Rendering
+        Loop</a> if it was active, and blacks out all associated
+        lighting universes.
+      </description>
+    </method>
   </methodlist>
 	
   <!--SEEALSO-->
@@ -94,6 +139,6 @@
     <seealso name="afterglow.max.Cue"/>
     <seealso name="afterglow.max.Eval"/>
     <seealso name="afterglow.max.Metro"/>
-    <seealso name="afterglow.max.NextFrame"/>
+    <seealso name="afterglow.max.Var"/>
   </seealsolist>
 </c74object>
