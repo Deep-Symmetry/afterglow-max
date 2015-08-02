@@ -48,7 +48,9 @@ For more details, see the Help patcher and full Reference within Max.
 ### mxj afterglow.max.Metro
 
 Adjust and query an Afterglow
-https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes[Metronome].
+[Metronome](https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes),
+allowing you to control and respond to the musical time that is
+driving a light show.
 
 ![mxj afterglow.max.Var](https://raw.githubusercontent.com/brunchboy/afterglow-max/master/doc/assets/Metro.png)
 

@@ -14,6 +14,21 @@
     <br/>
     <br/>
 
+    The timing information output by a Metro object can be used to
+    coordinate visualizations and other effects being created within
+    Max that run their own timing sources but that you want to respond
+    to the current musical time that is in effect within an Afterglow
+    light show. This would also let them benefit from the timing
+    synchronization that Afterglow can maintain with DJ software and
+    equipment. If, however, you want to adjust a Max patch which is
+    being used to control Afterglow's effects themselves, you are
+    better off using a <openfilelink
+    filename="afterglow.max.NextFrame.maxhelp">NextFrame</openfilelink>
+    object, because it generates messages at just the right time to be
+    used for that purpose.
+    <br/>
+    <br/>
+
     The left inlet controls the metronome's tempo, in terms of beats
     per minute. A <m>float</m> or <m>int</m> directly sets the BPM
     value, while a series of <m>tap</m> messages can establish a BPM
