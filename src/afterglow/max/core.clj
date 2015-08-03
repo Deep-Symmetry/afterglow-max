@@ -41,6 +41,8 @@
              (.println System/err t)
              (catch Throwable _))))))})
 
+(declare reload-init)
+
 (defn- init-internal
   "Performs the actual initialization, protected by the delay below
   to insure it happens only once."
@@ -64,8 +66,7 @@
     ;; the JAR files on the class path, even though it claims to. So the following line, which should
     ;; simply work, does not, and we need to do all the mumbo jumbo you see around it instead.
     ;;(require 'afterglow-max-init)
-    (binding [*ns* (the-ns 'afterglow.max.init)]
-      (load-init-file "init.clj"))
+    (reload-init)
     (timbre/info (version/title) (version/tag) "loaded.")
     (catch Throwable t
       (timbre/error "Problem loading afterglow-max configuration file init.clj:" t))))
@@ -75,9 +76,19 @@
   initialized (delay (init-internal)))
 
 (defn init
-  "Makes sure the Afterglow environment has been set up for
-  use with Max, including evaluating any initialization forms
-  in afterglow_max_init.clj, and directing log output to the
-  Max console."
+  "Makes sure the Afterglow environment has been set up for use with
+  Max, including evaluating any initialization forms in init.clj, and
+  directing log output to the Max console."
   []
   @initialized)
+
+(defn reload-init
+  "Loads the afterglow-max initializaton file init.clj with the
+  current namespace set to afterglow.max.init. This function only
+  works once [[init]] has prepared the necessary context, but it
+  can be used to reload the initialization file without quitting and
+  restarting Max."
+  {:doc/format :markdown}
+  []
+  (binding [*ns* (the-ns 'afterglow.max.init)]
+    (load-init-file "init.clj")))

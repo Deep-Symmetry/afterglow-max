@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 491.0, 237.0, 580.0, 492.0 ],
+		"rect" : [ 1329.0, 357.0, 580.0, 492.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,22 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"bubble" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-7",
+					"linecount" : 4,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 226.5, 273.5, 119.0, 69.0 ],
+					"style" : "",
+					"text" : "multiply by 100 for a saturation value ranging from 100–0."
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"bubble" : 1,
 					"bubbleside" : 3,
@@ -148,9 +164,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 127.0, 244.0, 137.0, 40.0 ],
+					"patching_rect" : [ 127.0, 223.0, 137.0, 40.0 ],
 					"style" : "",
-					"text" : "Flip it so it starts at 1 and falls to 0."
+					"text" : "flip it so it starts at 1 and falls to 0."
 				}
 
 			}
@@ -199,7 +215,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 359.5, 337.0, 172.0, 40.0 ],
+					"patching_rect" : [ 360.5, 337.0, 172.0, 40.0 ],
 					"style" : "",
 					"text" : "phases of phrase,  bar, beat",
 					"textjustification" : 1
@@ -228,7 +244,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 314.0, 251.0, 116.0, 40.0 ],
+					"patching_rect" : [ 364.0, 253.0, 116.0, 40.0 ],
 					"style" : "",
 					"text" : "phrase,  bar, beat",
 					"textjustification" : 1
@@ -242,7 +258,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 175.0, 308.0, 31.0, 22.0 ],
+					"patching_rect" : [ 140.0, 297.0, 31.0, 22.0 ],
 					"style" : "",
 					"text" : "100"
 				}
@@ -255,7 +271,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 219.0, 308.0, 42.0, 22.0 ],
+					"patching_rect" : [ 184.0, 297.0, 42.0, 22.0 ],
 					"style" : "",
 					"text" : "* 100."
 				}
@@ -268,7 +284,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 48.0, 253.0, 29.5, 22.0 ],
+					"patching_rect" : [ 48.0, 232.0, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "1"
 				}
@@ -281,7 +297,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 93.75, 253.0, 29.5, 22.0 ],
+					"patching_rect" : [ 93.75, 232.0, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "- 1."
 				}
@@ -333,7 +349,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 358.0, 313.0, 175.0, 22.0 ],
+					"patching_rect" : [ 359.0, 313.0, 175.0, 22.0 ],
 					"style" : "",
 					"text" : "0.4633 0.7064 0.8256"
 				}
@@ -346,7 +362,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 342.0, 227.0, 44.0, 22.0 ],
+					"patching_rect" : [ 400.0, 231.0, 44.0, 22.0 ],
 					"style" : "",
 					"text" : "27 4 3"
 				}

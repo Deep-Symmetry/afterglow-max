@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 2190.0, 170.0, 582.0, 435.0 ],
+		"rect" : [ 100.0, 100.0, 582.0, 435.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -47,7 +47,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 291.0, 277.0, 207.0, 55.0 ],
+					"patching_rect" : [ 291.0, 268.0, 207.0, 55.0 ],
 					"style" : "",
 					"text" : "Sets color of strobe cue created by afterglow.effects.fun/strobe",
 					"textjustification" : 1
@@ -63,7 +63,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 241.0, 388.0, 50.0, 22.0 ],
+					"patching_rect" : [ 241.0, 379.0, 50.0, 22.0 ],
 					"style" : ""
 				}
 
@@ -79,7 +79,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 219.5, 193.0, 93.0, 55.0 ],
+					"patching_rect" : [ 219.5, 184.0, 93.0, 55.0 ],
 					"style" : "",
 					"text" : "Set variable to float values",
 					"textjustification" : 1
@@ -95,7 +95,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 241.0, 249.0, 50.0, 22.0 ],
+					"patching_rect" : [ 241.0, 240.0, 50.0, 22.0 ],
 					"style" : ""
 				}
 
@@ -111,7 +111,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 125.0, 193.0, 81.0, 55.0 ],
+					"patching_rect" : [ 125.0, 184.0, 86.0, 55.0 ],
 					"style" : "",
 					"text" : "Set variable \nto int values",
 					"textjustification" : 1
@@ -126,7 +126,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 140.5, 249.0, 50.0, 22.0 ],
+					"patching_rect" : [ 140.5, 240.0, 50.0, 22.0 ],
 					"style" : ""
 				}
 
@@ -141,7 +141,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 293.0, 379.0, 274.0, 40.0 ],
+					"patching_rect" : [ 293.0, 370.0, 274.0, 40.0 ],
 					"style" : "",
 					"text" : "Receives new value whenever variable is changed, whether by Max or elsewhere"
 				}
@@ -159,8 +159,8 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 428.0, 333.0, 120.115349, 39.0 ],
-					"presentation_rect" : [ 286.0, 375.0, 120.115349, 39.0 ]
+					"patching_rect" : [ 428.0, 324.0, 120.115349, 39.0 ],
+					"presentation_rect" : [ 428.0, 333.0, 120.115349, 39.0 ]
 				}
 
 			}
@@ -175,7 +175,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 17.0, 193.0, 93.0, 55.0 ],
+					"patching_rect" : [ 17.0, 184.0, 93.0, 55.0 ],
 					"style" : "",
 					"text" : "Send current value to outlet",
 					"textjustification" : 1
@@ -189,7 +189,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 51.5, 249.0, 24.0, 24.0 ],
+					"patching_rect" : [ 51.5, 240.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -201,7 +201,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 241.0, 333.0, 188.0, 22.0 ],
+					"patching_rect" : [ 241.0, 324.0, 188.0, 22.0 ],
 					"style" : "",
 					"text" : "mxj afterglow.max.Var strobe-hue"
 				}
@@ -219,7 +219,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 10.0, 11.0, 547.0, 172.0 ]
+					"patching_rect" : [ 9.0, 11.0, 548.0, 153.0 ]
 				}
 
 			}

@@ -11,15 +11,14 @@
     href="https://github.com/brunchboy/afterglow/blob/master/doc/metronomes.adoc#metronomes">Metronome</a>
     object (either the default show metronome, or one stored in a
     named show variable).
-    <br/>
-    <br/>
+    <br />
 
-    (See the <openfilelink
-    filename="afterglow.max.setup.maxvig.xml">Getting
-    Started</openfilelink> guide if you have not yet configured
-    everything afterglow-max needs to create a light show.)
-    <br/>
-    <br/>
+    <bluebox>
+      See the <openfilelink
+      filename="afterglow.max.setup.maxvig.xml">Getting
+      Started</openfilelink> guide if you have not yet configured
+      everything afterglow-max needs to create a light show.
+    </bluebox>
 
     The timing information output by a Metro object can be used to
     coordinate visualizations and other effects being created within

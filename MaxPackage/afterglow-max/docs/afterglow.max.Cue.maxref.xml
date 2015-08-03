@@ -18,15 +18,14 @@
     assigned when the cue starts. Remaining outlets report the new
     values whenever cue variables are changed, regardless of the
     source of the change.
-    <br/>
-    <br/>
+    <br />
 
-    (See the <openfilelink
-    filename="afterglow.max.setup.maxvig.xml">Getting
-    Started</openfilelink> guide if you have not yet configured
-    everything afterglow-max needs to create a light show.)
-    <br/>
-
+    <bluebox>
+      See the <openfilelink
+      filename="afterglow.max.setup.maxvig.xml">Getting
+      Started</openfilelink> guide if you have not yet configured
+      everything afterglow-max needs to create a light show.
+    </bluebox>
 
     <h2>Examples</h2>
     <table>
@@ -36,10 +35,15 @@
       </tr>
       <tr>
         <td><openfilelink
-        filename="afterglow.cue.aim.example.maxpat">afterglow.cue.aim.example.maxpat</openfilelink></td>
+        filename="afterglow.cue.aim.example.maxpat">Aim Example</openfilelink></td>
         <td>Use a two-dimensional slider to control an <a
         href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#aim-effects">Aim
         Effect</a></td>
+      </tr>
+      <tr>
+        <td><openfilelink
+        filename="afterglow.max.NextFrame.maxhelp">NextFrame Help Patcher</openfilelink></td>
+        <td>Use beat phase to desaturate a rainbow cue</td>
       </tr>
     </table>
   </description>

@@ -15,15 +15,14 @@
     message to the inlet, which will send the current variable value
     to the outlet. If the variable has no current value, a <m>bang</m>
     will be sent instead.
-    <br/>
-    <br/>
+    <br />
 
-    (See the <openfilelink
-    filename="afterglow.max.setup.maxvig.xml">Getting
-    Started</openfilelink> guide if you have not yet configured
-    everything afterglow-max needs to create a light show.)
-    <br/>
-    <br/>
+    <bluebox>
+      See the <openfilelink
+      filename="afterglow.max.setup.maxvig.xml">Getting
+      Started</openfilelink> guide if you have not yet configured
+      everything afterglow-max needs to create a light show.
+    </bluebox>
 
     The variable to control and monitor is determined by the single
     argument.

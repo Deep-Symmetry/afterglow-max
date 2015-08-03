@@ -28,64 +28,187 @@
     right DMX addresses and physical locations and orientations. This
     guide will help you do that.
   </p>
-	<br />
-	<bluebox>
-	<h2>
-	Fixture Definitions
-	</h2>
-		<ul>
-		<li>
-			Command-double-click (Macintosh) or Alt-double-click (Windows) on the <o>patcher</o>
-			object in an unlocked Patcher window. The Patcher window for the subpatch
-			will be shown or brought to the front if it is already open.
-		</li>
-		<li>Unlock the subpatcher window.</li>
-		<li>
-			Add as many <o>inlet</o> and <o>outlet</o>
-			objects as you need.
-		</li>
-		<li>
-			Choose <b>Save As....</b> from the File menu.
-			Give it a name that is memorable and useful, and be sure to save your object
-			somewhere in the
-			<link type="vignette" module="core" name="file_preferences_window" anchor="searchpath">search path</link>,
-			so that Max can locate the object.
-		</li>
-		</ul>
-		<p>
-		If you save your abstraction with either .pat or .maxpat file extensions,
-		your abstractions will be available if
-		<link type="vignette" module="core" name="patcher_window" anchor="autocompletion">autocompletion</link>
-		is enabled.
+  <br />
+  <bluebox>
+    <h2>
+      Fixture Definitions
+    </h2>
+    In order to control a piece of lighting equipment, Afterglow needs
+    to know the features it has available, and the channels and
+    control values which select and operate those features. This
+    information is organized into <i>fixture definitions</i>. Over
+    time, more and more of these will be built into the base Afterglow
+    distribution, but at the moment there are very few, so you are
+    likely going to need to create your own, or ask for help doing so.
+    <br/>
+    <br/>
+
+    The <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/fixture_definitions.adoc#fixture-definitions">Fixture
+    Definitions</a> page on the main Afterglow project site explains
+    how to examine and create fixture definitions, so that is where to
+    start. Check whether your particular fixtures happen to be already
+    supported, and, if not, read how to write new definitions for
+    them.
+    <br/>
+    <br/>
+
+    As a Max user, however, you may find that task more challenging
+    than it is for people who have adopted Afterglow from a more
+    traditional programming background. If so, you are very much
+    encouraged to ask for help on the Afterglow <a
+    href="https://github.com/brunchboy/afterglow/wiki/Questions">wiki</a>.
+    Especially at this very early stage, the developer is eager to
+    help early adopters find success with Afterglow, because that will
+    help it grow into a thriving ecosystem. If you can provide a link
+    to the documentation of your fixture, someone with practice in
+    writing definitions should be able to whip one up for you fairly
+    quickly. (Also, if you are skilled at creating Max patches, then
+    even though Clojure is a textual rather than graphical
+    environment, you do have an advantage over people who come from
+    more common imperative programming languages, since both Max and
+    Clojure take a functional approach.)
+    <br/>
+    <br/>
+
+    Whether you are writing your own definitions, or incorporating one
+    that someone created for you, the fastest way to get them into
+    afterglow-max (rather than waiting for a future release to include
+    them), is to add them to the file
+    <b>afterglow-max/java-classes/fixtures.clj</b> in your Max
+    Packages directory where you installed afterglow-max. (This
+    assumes that you left the afterglow-max package folder name the
+    same as it was when you downloaded it. If you changed it, find the
+    file inside whatever you renamed the package.) This file gets
+    loaded by the <b>init.clj</b> file when afterglow-max is starting
+    up, so your fixture definitions will be available for use within
+    your show, as described below.
+    <br/>
+    <br/>
+
+    To avoid having to quit and relaunch Max every time you want to
+    reload your fixture definitions, you can use the <b>reload-init</b> (top)
+    message button in this <openfilelink
+    filename="afterglow.eval.example.maxpat">Eval
+    Example</openfilelink>. It also has suggestions about other, even
+    more convenient ways of working with Clojure code from inside Max.
+  </bluebox>
+  <br />
+  <p>
+    Once you have the fixture definitions in place, you need to patch
+    them into a show, telling Afterglow the DMX addresses they are
+    listening on, and their physical locations.
   </p>
-	</bluebox>
-	<br />
-		<p>
-			Once you create the abstraction file, you can return the main patcher, create a new object box, and type in the name of file (the extension is not required). Once you type the name of an abstraction once, it is added to the object box <link type="vignette" module="core" name="patcher_window" anchor="autocompletion">autocompletion</link> list.
-		</p>
-		<p>
-			You can locate and display abstractions you create in the 
-			<link type="vignette" module="core" name="file_browser">file browser</link>
-			by <i>tagging</i> your files. Once tagged, they'll be easy to locate in the future.
-		</p>
-	<bluebox>
-	<h2>
-	Tagging an abstraction
-	</h2>
-		<ul>
-		<li>
-			Open the abstraction file you have created and unlock the patcher window.
-		</li>
-		<li>
-			Choose <b>Inspector</b> from the Object menu to open the 
-			<link type="vignette" module="core" name="patcher_inspector">Patcher Inspector</link>.
-		</li>
-		<li>
-			In the Descriptions tab of the Patcher Inspector click in the Setting column for the 
-			Tags attribute to show a cursor and text box. Type "abstraction" into the text box and 
-			hit return.
-		</li>
-		</ul>
-	</bluebox>
-	<br />
+  <bluebox>
+    <h2>
+      Patching a Show
+    </h2>
+
+    The function <b>use-demo-show</b> inside <b>init.clj</b> is an
+    example of how to do this. Essentially, you will call <a
+    href="http://deepsymmetry.org/afterglow/doc/afterglow.show.html#var-patch-fixture.21">show/patch-fixture!</a>
+    once for each lighting fixture that you have hooked up to your DMX
+    interface, telling Afterglow the keyword you want to assign that
+    fixture, the fixture definition that explains how to control it,
+    the universe within your show that it is attached to (even if
+    there is only one universe), the DMX address that it is listening
+    to, and the physical location and orientation within <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/show_space.adoc#show-space">show
+    space</a> that you have hung the light.
+    <br/>
+    <br/>
+
+    Again, you can avoid having to quit and relaunch Max every time
+    you want to reload your init file as you work on setting up your
+    show, by using the <b>reload-init</b> (top) message button in this
+    <openfilelink filename="afterglow.eval.example.maxpat">Eval
+    Example</openfilelink>, or an actual Clojure development
+    environment connected to afterglow-max via nrepl.
+  </bluebox>
+  <br />
+  <p>
+    Then you will want some cues that are specific to your actual
+    fixtures.
+  </p>
+  <bluebox>
+    <h2>
+      Creating Cues
+    </h2>
+    <p>
+      The <a
+      href="http://deepsymmetry.org/afterglow/doc/afterglow.examples.html#var-make-cues">make-cues</a>
+      function in Afterglow's examples namespace creates all the cues
+      you have seen if you looked at the demo show in the web
+      interface (or on an Ableton Push controller). You will want to
+      look at its source code as an example for how to create cues
+      that are tailored to the lights you actually have, and which are
+      arranged, labeled, and colored in a way that makes sense to you.
+    </p>
+    <p>
+      Getting familiar with the Afterglow documentation about <a
+      href="https://github.com/brunchboy/afterglow/blob/master/doc/cues.adoc#cues">Cues</a>
+      and <a
+      href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#effects">Effects</a>
+      will be extremely helpful at this stage.
+    </p>
+    <p>
+      Remember that you can avoid having to quit and relaunch Max
+      every time you want to reload your init file as you work on
+      setting up your cues, with the help of the <b>reload-init</b>
+      (top) message button in this <openfilelink
+      filename="afterglow.eval.example.maxpat">Eval
+      Example</openfilelink>, or an actual Clojure development
+      environment connected to afterglow-max via nrepl.
+    </p>
+  </bluebox>
+  <p>
+    And, finally...
+  </p>
+  <bluebox>
+    <h2>
+      Creating Your Own Effects
+    </h2>
+    <p>
+      Once you have a set of cues that control your actual lights, you
+      can be really productive with Afterglow. You can control those
+      cues with either a physical controller, the built in Web
+      interface, or the <openfilelink
+      filename="afterglow.max.Cue.maxhelp">afterglow.max.Cue</openfilelink>
+      Max object. But that is just where the fun begins! You can
+      combine the Cue object with an <openfilelink
+      filename="afterglow.max.NextFrame.maxhelp">afterglow.max.NextFrame</openfilelink>
+      object to tweak the way the cue looks on a frame-by-frame basis
+      in response to the progression of musical time, or in response
+      to some sort of audio processing you are doing within Max, or to
+      tie into a Vizzie visualization... your imagination is the
+      limit.
+    </p>
+    <p>
+      And once you feel ready to dig deeper, you can even use the full
+      power of the Clojure language to create brand new effects that
+      go beyond the ones <a
+      href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#effects">built
+      in</a> to Afterglow. The entire purpose of Afterglow is to make
+      that kind of extension and customization as easy as possible, to
+      be responsive enough that you can even do that in the middle of
+      a performance. It is a live-coding environment for light shows.
+    </p>
+    <p>
+      Have fun with it!
+    </p>
+  </bluebox>
+  <p>
+    Don’t forget to contribute your fixture definitions and effects to
+    the Afterglow community! If you are confident that you have fully
+    mapped out the functions of a fixture, please make a <a
+    href="https://github.com/brunchboy/afterglow/pulls">pull
+    request</a> to include it in afterglow, either within the existing
+    namespace for its manufacturer, or creating a new namespace for a
+    new manufacturer. Similarly, if you have created an awesome new
+    kind of effect, please consider a pull request to add it somewhere
+    within the effects namespace hierarchy. And if you are just
+    tinkering with something new and experimental, please post about
+    it on the <a
+    href="https://github.com/brunchboy/afterglow/wiki">wiki</a>!
+  </p>
 </vignette>

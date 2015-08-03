@@ -12,24 +12,14 @@
     so cue variables and other context can be prepared for that
     process. Starts and stops the light show in response to incoming
     <m>start</m> and <m>stop</m> messages.
-    <br/>
-    <br/>
+    <br />
 
-    (See the <openfilelink
-    filename="afterglow.max.setup.maxvig.xml">Getting
-    Started</openfilelink> guide if you have not yet configured
-    everything afterglow-max needs to create a light show. Also note
-    that if you want to coordinate visualizations and other effects
-    within Max that run their own timing sources, but which you want
-    to respond to the current musical time that is in effect within an
-    Afterglow light show, you are likely better off using a
-    <openfilelink
-    filename="afterglow.max.Metro.maxhelp">Metro</openfilelink>
-    object, and sending it bangs at the intervals that your patch
-    wants to update its state, rather than being driven by the timing
-    source of the show itself the way the NextFrame object is.)
-    <br/>
-    <br/>
+    <bluebox>
+      See the <openfilelink
+      filename="afterglow.max.setup.maxvig.xml">Getting
+      Started</openfilelink> guide if you have not yet configured
+      everything afterglow-max needs to create a light show.
+    </bluebox>
 
     Sending a <m>start</m> message to the inlet makes sure that the
     show's <a
@@ -76,6 +66,20 @@
 
     The NextFrame object takes no arguments. It will send messages
     whenever the show is running.
+
+    <bluebox>
+      If you want to coordinate visualizations and other effects
+      within Max that run their own timing sources, but which you want
+      to respond to the current musical time that is in effect within
+      an Afterglow light show, you are likely better off using a
+      <openfilelink
+      filename="afterglow.max.Metro.maxhelp">Metro</openfilelink>
+      object, and sending it bangs at the intervals that your patch
+      wants to update its state, rather than being driven by the
+      timing source of the show itself the way the NextFrame object
+      is.
+    </bluebox>
+
   </description>
 	
   <!--METADATA-->

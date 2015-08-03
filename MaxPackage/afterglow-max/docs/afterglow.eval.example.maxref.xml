@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
 
-<c74object name="afterglow.cue.aim.example" module="max" category="afterglow-max">
+<c74object name="afterglow.eval.example" module="max" category="afterglow-max">
   <digest>
-    Control an Aim cue using a pair of sliders
+    More useful expressions for the Eval object
   </digest>
 	
   <description>
-    Controls a cue running an <a
-    href="https://github.com/brunchboy/afterglow/blob/master/doc/effects.adoc#aim-effects">Aim
-    Effect</a> using a two-dimensional X-Z and a regular Y slider to set
-    cue variables used to create the effect's <a
-    href="https://github.com/brunchboy/afterglow/blob/master/doc/parameters.adoc#aim-parameters">Aim
-    Parameter</a>.
+    These can be particularly handy when you are developing and troubleshooting your
+    fixture definitions, show and cues.
   </description>
 	
   <!--METADATA-->
