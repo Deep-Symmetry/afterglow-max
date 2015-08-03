@@ -103,12 +103,13 @@ For more details, see the Help patcher and full Reference within Max.
    beta, I have found it completely stable and more friendly and easy
    to work with than the older one.
 
-3. Download a release (this will be a link as soon as the first
-   release happens), unzip it, and install the `afterglow-max` folder
-   into Max's `Max 7/Packages` folder (in your `Documents` folder).
-   afterglow-max may also work with Max 6, or even Pure Data, but it
-   hasn't been tested with them. If you try, please let us know how it
-   goes on the [Wiki](https://github.com/brunchboy/afterglow-max/wiki)!
+3. Download `afterglow-max.zip` from a <a
+   href="https://github.com/brunchboy/afterglow-max/releases">release</a>,
+   unzip it, and install the `afterglow-max` folder into Max's `Max
+   7/Packages` folder (in your `Documents` folder). afterglow-max may
+   also work with Max 6, or even Pure Data, but it hasn't been tested
+   with them. If you try, please let us know how it goes on the
+   [Wiki](https://github.com/brunchboy/afterglow-max/wiki)!
 
 You should then be able to launch Max and experiment with the
 afterglow-max objects! Once you want to start patching your own
