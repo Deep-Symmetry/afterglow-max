@@ -17,6 +17,13 @@
     REPL</a> implementation, but unlike an actual web REPL, there is
     no session to expire. The bindings are kept around as long as the
     object exists in an active Max patcher.
+    <br/>
+    <br/>
+
+    (See the <openfilelink
+    filename="afterglow.max.setup.maxvig.xml">Getting
+    Started</openfilelink> guide if you have not yet configured
+    everything afterglow-max needs to create a light show.)
   </description>
 	
   <!--METADATA-->

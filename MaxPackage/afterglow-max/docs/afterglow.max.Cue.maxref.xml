@@ -18,7 +18,15 @@
     assigned when the cue starts. Remaining outlets report the new
     values whenever cue variables are changed, regardless of the
     source of the change.
-    <br />
+    <br/>
+    <br/>
+
+    (See the <openfilelink
+    filename="afterglow.max.setup.maxvig.xml">Getting
+    Started</openfilelink> guide if you have not yet configured
+    everything afterglow-max needs to create a light show.)
+    <br/>
+
 
     <h2>Examples</h2>
     <table>

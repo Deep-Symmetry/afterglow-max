@@ -15,10 +15,14 @@
     <br/>
     <br/>
 
-    (Note that if you want to coordinate visualizations and other
-    effects within Max that run their own timing sources, but which
-    you want to respond to the current musical time that is in effect
-    within an Afterglow light show, you are likely better off using a
+    (See the <openfilelink
+    filename="afterglow.max.setup.maxvig.xml">Getting
+    Started</openfilelink> guide if you have not yet configured
+    everything afterglow-max needs to create a light show. Also note
+    that if you want to coordinate visualizations and other effects
+    within Max that run their own timing sources, but which you want
+    to respond to the current musical time that is in effect within an
+    Afterglow light show, you are likely better off using a
     <openfilelink
     filename="afterglow.max.Metro.maxhelp">Metro</openfilelink>
     object, and sending it bangs at the intervals that your patch

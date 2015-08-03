@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet href="_c74_vig.xsl" type="text/xsl"?>
+<vignette name="Abstractions" package="Max">
+  <h1>
+    Getting Started with afterglow-max
+  </h1>
+  <p>
+    As noted on the <a
+    href="https://github.com/brunchboy/afterglow-max#installation">project
+    page</a>, you need to have the Open Lighting Architecture
+    installed for afterglow to work, and an OLA universe created for
+    your show to work with. Make sure you have followed those
+    instructions before trying to get real things to happen with your
+    afterglow-max objects.
+  </p>
+  <p>
+    Once you have, you can start experimenting with them, seeing how
+    they respond to messages, and even watching the responses of
+    Afterglow's embedded <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/README.adoc#the-embedded-web-interface">web
+    interface</a>, and the DMX values being sent to OLA on its own <a
+    href="http://localhost:9090/new/">web UI</a>.
+  </p>
+  <p>
+    In order to get your own light show going with the fixtures you
+    actually have, you will need to find or create appropriate fixture
+    definitions, and configure your own show to patch them at the
+    right DMX addresses and physical locations and orientations. This
+    guide will help you do that.
+  </p>
+	<br />
+	<bluebox>
+	<h2>
+	Fixture Definitions
+	</h2>
+		<ul>
+		<li>
+			Command-double-click (Macintosh) or Alt-double-click (Windows) on the <o>patcher</o>
+			object in an unlocked Patcher window. The Patcher window for the subpatch
+			will be shown or brought to the front if it is already open.
+		</li>
+		<li>Unlock the subpatcher window.</li>
+		<li>
+			Add as many <o>inlet</o> and <o>outlet</o>
+			objects as you need.
+		</li>
+		<li>
+			Choose <b>Save As....</b> from the File menu.
+			Give it a name that is memorable and useful, and be sure to save your object
+			somewhere in the
+			<link type="vignette" module="core" name="file_preferences_window" anchor="searchpath">search path</link>,
+			so that Max can locate the object.
+		</li>
+		</ul>
+		<p>
+		If you save your abstraction with either .pat or .maxpat file extensions,
+		your abstractions will be available if
+		<link type="vignette" module="core" name="patcher_window" anchor="autocompletion">autocompletion</link>
+		is enabled.
+  </p>
+	</bluebox>
+	<br />
+		<p>
+			Once you create the abstraction file, you can return the main patcher, create a new object box, and type in the name of file (the extension is not required). Once you type the name of an abstraction once, it is added to the object box <link type="vignette" module="core" name="patcher_window" anchor="autocompletion">autocompletion</link> list.
+		</p>
+		<p>
+			You can locate and display abstractions you create in the 
+			<link type="vignette" module="core" name="file_browser">file browser</link>
+			by <i>tagging</i> your files. Once tagged, they'll be easy to locate in the future.
+		</p>
+	<bluebox>
+	<h2>
+	Tagging an abstraction
+	</h2>
+		<ul>
+		<li>
+			Open the abstraction file you have created and unlock the patcher window.
+		</li>
+		<li>
+			Choose <b>Inspector</b> from the Object menu to open the 
+			<link type="vignette" module="core" name="patcher_inspector">Patcher Inspector</link>.
+		</li>
+		<li>
+			In the Descriptions tab of the Patcher Inspector click in the Setting column for the 
+			Tags attribute to show a cursor and text box. Type "abstraction" into the text box and 
+			hit return.
+		</li>
+		</ul>
+	</bluebox>
+	<br />
+</vignette>

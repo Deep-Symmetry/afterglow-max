@@ -14,6 +14,13 @@
     <br/>
     <br/>
 
+    (See the <openfilelink
+    filename="afterglow.max.setup.maxvig.xml">Getting
+    Started</openfilelink> guide if you have not yet configured
+    everything afterglow-max needs to create a light show.)
+    <br/>
+    <br/>
+
     The timing information output by a Metro object can be used to
     coordinate visualizations and other effects being created within
     Max that run their own timing sources but that you want to respond
