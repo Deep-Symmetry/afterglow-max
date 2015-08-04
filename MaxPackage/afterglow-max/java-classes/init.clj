@@ -87,7 +87,7 @@
   '*show*)
 
 ;; Create the demo show as specified above, and set it as the default show.
-(use-demo-show :universe 0)
+(use-demo-show)
 
 ;; Create the standard Afterglow sample cues within the demo show cue grid.
 (examples/make-cues)
