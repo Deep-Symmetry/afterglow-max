@@ -108,9 +108,9 @@ For more details, see the Help patcher and full Reference within Max.
    to work with than the older one.
 
 3. Make sure you have an appropriate Java environment so that the
-   `mxj` object in Max can work. Its reference page says "Using the
+   `mxj` object in Max can work. Its reference page says &ldquo;Using the
    `mxj` object requires that the host computer have a current version
-   of the Java Virtual Machine (JVM) installed."
+   of the Java Virtual Machine (JVM) installed.&rdquo;
 
     > :wrench: This statement is, however, a bit dated on the Mac.
     > Even the latest Max only supports the
@@ -136,7 +136,7 @@ Clojure side of afterglow-max, you will want to edit the file
 > :wrench: If you want to use an Ableton Push controller, and are
 > using a Mac, you will need to work around some bugs in Java MIDI
 > support on the Mac. The
-> [Wiki](https://github.com/brunchboy/afterglow/wiki/Questions#midi-from-java-on-the-mac)
+> [Afterglow Wiki](https://github.com/brunchboy/afterglow/wiki/Questions#midi-from-java-on-the-mac)
 > explains how to do that.
 
 If you want to build from source, install
