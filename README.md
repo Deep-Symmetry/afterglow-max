@@ -147,10 +147,11 @@ the compiled code. Copy that into
 `MaxPackage/afterglow-max`, which is the Max package, to the Max
 Packages folder as described in the last Installation step above.
 
-> You can also create an alias of the `MaxPackage/afterglow-max`
-> folder inside your Max Packages folder to avoid having to copy it
-> from the repository every time you want to use an updated version in
-> Max. The compiled jar file is set up to be ignored by git.
+> :bulb: You can also create an alias of the
+> `MaxPackage/afterglow-max` folder inside your Max Packages folder to
+> avoid having to copy it from the repository every time you want to
+> use an updated version in Max. The compiled jar file is set up to be
+> ignored by git. This makes working from source much more convenient.
 
 ## License
 
