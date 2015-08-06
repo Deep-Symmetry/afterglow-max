@@ -90,6 +90,10 @@ For more details, see the Help patcher and full Reference within Max.
    in seeing whether anything is working; you can even watch live DMX
    values changing.
 
+   > :wrench: If you are using Max on Windows, see the
+   > [Afterglow Wiki discussion](https://github.com/brunchboy/afterglow/wiki/Questions#ola-and-windows)
+   > about OLA options.
+   
 2. Set up an OLA universe for afterglow-max to use. The demonstration
    patchers and help files use universe `1` by default, so the easiest
    thing to do is set that up as a dummy universe. Of course, if you
@@ -103,7 +107,19 @@ For more details, see the Help patcher and full Reference within Max.
    beta, I have found it completely stable and more friendly and easy
    to work with than the older one.
 
-3. Download `afterglow-max.zip` from a <a
+3. Make sure you have an appropriate Java environment so that the
+   `mxj` object in Max can work. Its reference page says "Using the
+   `mxj` object requires that the host computer have a current version
+   of the Java Virtual Machine (JVM) installed."
+
+    > :wrench: This statement is, however, a bit dated on the Mac.
+    > Even the latest Max only supports the
+    > [legacy Apple 1.6 JVM](http://support.apple.com/kb/dl1572),
+    > which you need to install separately even if you have a current
+    > Oracle JVM installed, as discussed on this
+    > [Cycling ‘74 Wiki page](https://cycling74.com/wiki/index.php?title=Java_on_OS_X_10.9_(and_later)).
+
+4. Download `afterglow-max.zip` from a <a
    href="https://github.com/brunchboy/afterglow-max/releases">release</a>,
    unzip it, and install the `afterglow-max` folder into Max's `Max
    7/Packages` folder (in your `Documents` folder). afterglow-max may
@@ -116,6 +132,12 @@ afterglow-max objects! Once you want to start patching your own
 fixtures and creating your own custom cues and effects within the
 Clojure side of afterglow-max, you will want to edit the file
 `afterglow-max/java-classes/init.clj`.
+
+> :wrench: If you want to use an Ableton Push controller, and are
+> using a Mac, you will need to work around some bugs in Java MIDI
+> support on the Mac. The
+> [Wiki](https://github.com/brunchboy/afterglow/wiki/Questions#midi-from-java-on-the-mac)
+> explains how to do that.
 
 If you want to build from source, install
 [Leiningen](http://leiningen.org), clone this repository, and run
