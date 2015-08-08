@@ -166,7 +166,8 @@ entries it creates there per minute. So if something is going wrong
 frequently, you may miss log entries in the console. And that is not
 the best place to try to read a Clojure stack trace even whent there
 is only one to look at. You can find more complete logs in the
-directory `MaxPackage/afterglow-max/logs/`.
+directory `afterglow-max/logs/` in the Max `Packages` directory where
+you installed afterglow-max.
 
 The Open Lighting Architecture's
 [web interface](http://localhost:9090/new/#/), which you can find on
