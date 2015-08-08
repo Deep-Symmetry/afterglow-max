@@ -1,5 +1,6 @@
 (ns afterglow.max.core
   (:require [afterglow.core]
+            [afterglow.midi :as amidi]
             [afterglow.version :as version]
             [afterglow.max.init :refer [init-dir load-init-file get-log-path]]
             [taoensso.timbre :as timbre]
@@ -60,6 +61,12 @@
                                       (when @init-dir {:rotor (rotor/rotor-appender {:path (get-log-path)
                                                                                      :max-size 100000
                                                                                      :backlog 5})})))
+
+  ;; Load the MIDI system in a background thread, since it takes a while. This will speed up later
+  ;; operations like opening the web show control interface, or activating an Ableton Push controller.
+  (future
+    (amidi/open-inputs-if-needed!)
+    (amidi/open-outputs-if-needed!))
 
   (try
     ;; Unfortunately,  Max 7 on the Mac (and maybe other versions?) does not actually put anything but
