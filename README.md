@@ -153,6 +153,29 @@ Packages folder as described in the last Installation step above.
 > use an updated version in Max. The compiled jar file is set up to be
 > ignored by git. This makes working from source much more convenient.
 
+## Troubleshooting
+
+When afterglow-max has important events to report, or encounters
+problems, it writes log entries to the normal Max console; that's the
+first place to look when something seems not to be working right.
+Following normal Max conventions, errors have a red background.
+
+Since afterglow-max attempts things at frequent intervals, it
+throttles its output to the Max console, and limits the number of
+entries it creates there per minute. So if something is going wrong
+frequently, you may miss log entries in the console. And that is not
+the best place to try to read a Clojure stack trace even whent there
+is only one to look at. You can find more complete logs in the
+directory `MaxPackage/afterglow-max/logs/`.
+
+The Open Lighting Architecture's
+[web interface](http://localhost:9090/new/#/), which you can find on
+port 9090 of the machine running afterglow-max if you installed it in
+the normal way, can be useful in troubleshooting as well. You can see
+if the universes that afterglow-max is expecting to interact with
+actually exist, are configured to talk to the lighting interfaces you
+expect, and are sending DMX channel values that seem reasonable.
+
 ## License
 
 <img align="right" alt="Deep Symmetry" src="doc/assets/DS-logo-bw-200-padded-left.png">
