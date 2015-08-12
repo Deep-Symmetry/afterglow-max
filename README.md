@@ -4,6 +4,8 @@ A package for hosting
 [Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
 [Cycling ‘74’s Max](https://cycling74.com).
 
+[![License](https://img.shields.io/github/license/brunchboy/afterglow-max.svg)](#license)
+
 ## Usage
 
 The afterglow-max package provides a number of objects for monitoring
