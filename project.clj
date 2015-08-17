@@ -4,8 +4,9 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [afterglow "0.1.2"]
-                 [com.taoensso/timbre "4.1.0"]]
+                 [afterglow "0.1.3"]
+                 [com.taoensso/timbre "4.1.1"]]
+  :main afterglow.core  ; So command-line arguments can be used, e.g. to convert QXF files.
   :uberjar-name "afterglow-max.jar"
   :manifest {"Name" ~#(str (clojure.string/replace (:group %) "." "/")
                             "/" (:name %) "/")
