@@ -53,6 +53,24 @@
     <br/>
     <br/>
 
+    <i>Note:</i> Just like with the standalone version of Afterglow,
+    you can invoke afterglow-max from the command line to translate
+    any fixture definitions that are available for the QLC+ lighting
+    control system as a starting point for your Afterglow fixture
+    definitions. Since far more lights have been set up for QLC+ than
+    for Afterglow, this can be a helpful shortcut. The Afterglow
+    documentation <a
+    href="https://github.com/brunchboy/afterglow/blob/master/doc/fixture_definitions.adoc#translating-qlc-fixture-definitions">explains
+    how to do this</a> in more detail; you just need to modify the
+    command line in the examples to point at your afterglow-max jar
+    file, which can be done (assuming your shell or command window is
+    currently in your Max <b>Packages</b> directory), like this:
+    <b>java -jar afterglow-max/java-classes/lib/afterglow-max.jar
+    </b><i>...the rest of the command will be the same as in the
+    Afterglow documentation</i>.
+    <br/>
+    <br/>
+
     As a Max user, however, you may find that task more challenging
     than it is for people who have adopted Afterglow from a more
     traditional programming background. If so, you are very much

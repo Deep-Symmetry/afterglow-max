@@ -1,4 +1,4 @@
-(defproject afterglow-max "0.1.3-SNAPSHOT"
+(defproject afterglow-max "0.1.3"
   :description "A package for hosting Afterglow inside Cycling ‘74’s Max."
   :url "https://github.com/brunchboy/afterglow-max"
   :license {:name "Eclipse Public License"
