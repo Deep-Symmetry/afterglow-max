@@ -1,5 +1,7 @@
 # afterglow-max
 
+[![Join the chat at https://gitter.im/brunchboy/afterglow](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/brunchboy/afterglow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A package for hosting
 [Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
 [Cycling ‘74’s Max](https://cycling74.com).
