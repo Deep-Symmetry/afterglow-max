@@ -52,7 +52,6 @@
   change otherwise. As noted above, these outlets also report the
   locally stored initial value for the cue variable when the outlet
   above them receives a `bang`."
-  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[int int] []}
               :exposes-methods {declareTypedIO parentDeclareTypedIO

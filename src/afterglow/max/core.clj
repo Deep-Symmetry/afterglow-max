@@ -95,7 +95,6 @@
   works once [[init]] has prepared the necessary context, but it
   can be used to reload the initialization file without quitting and
   restarting Max."
-  {:doc/format :markdown}
   []
   (binding [*ns* (the-ns 'afterglow.max.init)]
     (load-init-file "init.clj")))

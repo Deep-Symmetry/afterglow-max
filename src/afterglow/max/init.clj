@@ -6,8 +6,7 @@
 
 (defonce ^{:doc "Will be set to contain a java.io.File object
   identifying the directory from which the init.clj file is being
-  loaded, to help it load other files using [[load-init-file]]."
-           :doc/format :markdown}
+  loaded, to help it load other files using [[load-init-file]]."}
   init-dir (atom nil))
 
 (defn load-init-file

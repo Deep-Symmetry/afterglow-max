@@ -21,7 +21,6 @@
   outlets underneath inlets report on the same value controlled by
   that inlet, while the rightmost outlet reports a list containing the
   current phases of the phrase, bar, and beat."
-  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[String] []}
               :exposes-methods {declareTypedIO parentDeclareTypedIO

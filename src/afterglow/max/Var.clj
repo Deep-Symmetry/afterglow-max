@@ -20,7 +20,6 @@
   The outlet reports the new value of the show variable whenever it
   changes, regardless of whether the change was caused by Max or
   outside of it."
-  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[String] []}
               :exposes-methods {declareIO parentDeclareIO

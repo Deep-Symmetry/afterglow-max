@@ -12,7 +12,6 @@
   web REPL implementation, but unlike an actual web repl, there is no
   session to expire. The bindings are kept around as long as the
   object exists in an active Max patcher."
-  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[] []
                              [String] []}

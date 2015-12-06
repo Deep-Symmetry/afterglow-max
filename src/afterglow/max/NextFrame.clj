@@ -18,7 +18,6 @@
   running; sending a `stop` message shuts it down and blacks out the
   associated lighting universes. Sending a `bang` toggles between
   those states."
-  {:doc/format :markdown}
   (:gen-class :extends com.cycling74.max.MaxObject
               :constructors {[] []}
               :exposes-methods {declareTypedIO parentDeclareTypedIO
