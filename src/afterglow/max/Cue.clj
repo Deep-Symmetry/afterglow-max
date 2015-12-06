@@ -248,7 +248,7 @@
         (-end this)
         (-start this))
       (let [v (nth (cue-variables this) (dec inlet)) ; One of the variable inlets; output its current value.
-            current-val (get-cue-variable this v active)]
+            current-val (get-cue-variable this v)]
         (if (number? current-val)
           (.outlet this inlet (float current-val))
           (.outletBang this inlet))))))
