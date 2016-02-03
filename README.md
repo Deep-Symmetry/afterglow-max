@@ -6,7 +6,7 @@ A package for hosting
 
 [![Join the chat at https://gitter.im/brunchboy/afterglow](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/brunchboy/afterglow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![License](https://img.shields.io/github/license/brunchboy/afterglow-max.svg)](#license)
+[![License](https://img.shields.io/badge/License-Eclipse%20Public%20License%201.0-blue.svg)](#license)
 
 ## Usage
 
