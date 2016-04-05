@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 0,
-			"revision" : 5,
+			"minor" : 1,
+			"revision" : 0,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 405.0, 252.0, 613.0, 488.0 ],
+		"rect" : [ 978.0, 457.0, 613.0, 488.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -235,13 +235,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-5",
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 145.0, 440.0, 131.0, 22.0 ],
+					"patching_rect" : [ 145.0, 440.0, 131.0, 35.0 ],
 					"style" : "",
-					"text" : "started here 31 Aim"
+					"text" : "ended 52 \"Aim torrent-1 (Group A)\""
 				}
 
 			}
@@ -297,7 +298,7 @@
 					"outlettype" : [ "", "int", "int", "int" ],
 					"patching_rect" : [ 257.0, 397.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "mxj afterglow.max.Cue 1 8"
+					"text" : "mxj afterglow.max.Cue 8 9"
 				}
 
 			}
@@ -408,12 +409,8 @@
 				"type" : "TEXT",
 				"implicit" : 1
 			}
-, 			{
-				"name" : "mxj.mxo",
-				"type" : "iLaX"
-			}
  ],
-		"embedsnapshot" : 0
+		"autosave" : 0
 	}
 
 }

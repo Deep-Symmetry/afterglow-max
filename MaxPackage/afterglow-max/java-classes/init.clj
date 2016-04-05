@@ -30,7 +30,7 @@
   demo-show
   (atom nil))
 
-;; This function sets up the demo show. When you are ready, edit it to
+;; This function sets up a demo show. When you are ready, edit it to
 ;; contain the actual lights you have, using your new fixture definitions
 ;; in fixtures.clj, patched on the actual DMX addresses they use, and at
 ;; the actual physical locations and orientations that you have them set
@@ -84,13 +84,19 @@
   (show/patch-fixture! :snowball (blizzard/snowball) universe 33 :x (tf/inches -76) :y (tf/inches 32)
                        :z (tf/inches 164.5))
   (show/patch-fixture! :hyp-rgb (adj/hypnotic-rgb) universe 45)
+
+  ;; Turn on the OSC server.
+  (when (nil? @afterglow.core/osc-server)
+    (afterglow.core/start-osc-server 16010))
+
   '*show*)
 
-;; Create the demo show as specified above, and set it as the default show.
+;; Create the sample show that ships with Afterglow, because the cues depend on it.
+;; Replace this with a call to create your own show when you are ready.
 (use-demo-show)
 
 ;; Create the standard Afterglow sample cues within the demo show cue grid.
-(examples/make-cues)
+(examples/make-cues false)
 
 ;; Add your own cues and effects here, using the source for examples/make-cues as a guide...
 ;; Once you have enough, you may no longer need the example ones.

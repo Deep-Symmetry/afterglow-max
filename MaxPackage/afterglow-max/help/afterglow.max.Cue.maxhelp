@@ -3,8 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 0,
-			"revision" : 5,
+			"minor" : 1,
+			"revision" : 0,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
@@ -48,8 +48,8 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 420.0, 309.0, 100.0, 54.0 ],
-					"presentation_rect" : [ 420.0, 309.0, 100.0, 54.0 ]
+					"patching_rect" : [ 420.0, 309.0, 100.0, 24.0 ],
+					"presentation_rect" : [ 420.0, 309.0, 100.0, 24.0 ]
 				}
 
 			}
@@ -286,7 +286,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 148.5, 366.0, 139.5, 22.0 ],
 					"style" : "",
-					"text" : "ended 31 \"Strobe All\""
+					"text" : "ended 53 \"Strobe All\""
 				}
 
 			}
@@ -306,12 +306,12 @@
 				"box" : 				{
 					"id" : "obj-22",
 					"maxclass" : "newobj",
-					"numinlets" : 3,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "int", "int" ],
+					"numinlets" : 4,
+					"numoutlets" : 4,
+					"outlettype" : [ "", "int", "int", "int" ],
 					"patching_rect" : [ 269.0, 308.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "mxj afterglow.max.Cue 0 6"
+					"text" : "mxj afterglow.max.Cue 0 7"
 				}
 
 			}
@@ -428,12 +428,8 @@
 				"type" : "TEXT",
 				"implicit" : 1
 			}
-, 			{
-				"name" : "mxj.mxo",
-				"type" : "iLaX"
-			}
  ],
-		"embedsnapshot" : 0
+		"autosave" : 0
 	}
 
 }
