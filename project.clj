@@ -1,11 +1,11 @@
-(defproject afterglow-max "0.2.1"
+(defproject afterglow-max "0.2.2-SNAPSHOT"
   :description "A package for hosting Afterglow inside Cycling ‘74’s Max."
   :url "https://github.com/brunchboy/afterglow-max"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [afterglow "0.2.1"]
-                 [com.taoensso/timbre "4.3.1"]]
+                 [afterglow "0.2.3"]
+                 [com.taoensso/timbre "4.4.0"]]
   :main afterglow.core  ; So command-line arguments can be used, e.g. to convert QXF files.
   :uberjar-name "afterglow-max.jar"
   :manifest {"Name" ~#(str (clojure.string/replace (:group %) "." "/")
