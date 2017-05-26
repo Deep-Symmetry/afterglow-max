@@ -184,6 +184,7 @@ expect, and are sending DMX channel values that seem reasonable.
 ## License
 
 <img align="right" alt="Deep Symmetry" src="doc/assets/DS-logo-bw-200-padded-left.png">
+
 Copyright © 2015 [Deep Symmetry, LLC](http://deepsymmetry.org)
 
 Distributed under the
