@@ -22,8 +22,8 @@
              :uberjar {:aot :all}}
   :repositories {"project" "file:repo"}
 
-  :plugins [[lein-codox "0.9.4"]
-            [lein-environ "1.0.2"]]
+  :plugins [[lein-codox "0.10.3"]
+            [lein-environ "1.1.0"]]
 
   :codox {:source-uri "http://github.com/brunchboy/afterglow-max/blob/master/{filepath}#L{line}"
           :metadata {:doc/format :markdown}}
