@@ -97,7 +97,7 @@ For more details, see the Help patcher and full Reference within Max.
    > :wrench: If you are using Max on Windows, see the
    > [Afterglow Wiki discussion](https://github.com/brunchboy/afterglow/wiki/Questions#ola-and-windows)
    > about OLA options.
-   
+
 2. Set up an OLA universe for afterglow-max to use. The demonstration
    patchers and help files use universe `1` by default, so the easiest
    thing to do is set that up as a dummy universe. Of course, if you
@@ -183,7 +183,8 @@ expect, and are sending DMX channel values that seem reasonable.
 
 ## License
 
-<img align="right" alt="Deep Symmetry" src="doc/assets/DS-logo-bw-200-padded-left.png">
+<a href="http://deepsymmetry.org"><img align="right" alt="Deep Symmetry"
+ src="doc/assets/DS-logo-github.png" width="250" height="150"></a>
 
 Copyright © 2015 [Deep Symmetry, LLC](http://deepsymmetry.org)
 
@@ -195,4 +196,3 @@ this notice, or any other, from this software. A copy of the license
 can be found in
 [resources/epl-v10.html](https://cdn.rawgit.com/brunchboy/afterglow-max/master/resources/epl-v10.html)
 within this project.
-
