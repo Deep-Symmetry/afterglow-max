@@ -1,12 +1,26 @@
 # afterglow-max
 
+[![project chat](https://img.shields.io/badge/chat-on%20zulip-brightgreen)](https://deep-symmetry.zulipchat.com/#narrow/stream/318697-afterglow)<br><br>
+
 A package for hosting
 [Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
 [Cycling ‘74’s Max](https://cycling74.com).
 
-[![Join the chat at https://gitter.im/brunchboy/afterglow](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/brunchboy/afterglow?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![License](https://img.shields.io/badge/License-Eclipse%20Public%20License%201.0-blue.svg)](#license)
+
+## Getting Help
+
+<a href="http://zulip.com"><img align="right" alt="Zulip logo"
+ src="doc/modules/ROOT/assets/images/zulip-icon-circle.svg"
+ width="128" height="128"></a>
+
+Deep Symmetry&rsquo;s projects are generously sponsored with hosting
+by <a href="https://zulip.com">Zulip</a>, an open-source modern team
+chat app designed to keep both live and asynchronous conversations
+organized. Thanks to them, you can <a
+href="https://deep-symmetry.zulipchat.com/#narrow/stream/318697-afterglow">chat
+with our community</a>, ask questions, get inspiration, and share your
+own ideas.
 
 ## Usage
 
@@ -38,7 +52,7 @@ within Max.
 
 Evaluates Clojure expressions within the Afterglow context. Combined
 with message objects, gives you an easy way to make Afterglow do
-things that aren't worth creating special objects for. Useful examples
+things that aren&rsquo;t worth creating special objects for. Useful examples
 in the Help patcher include starting and opening the
 [web interface](https://github.com/brunchboy/afterglow/blob/master/doc/README.adoc#the-embedded-web-interface),
 enabling a connection from a full-featured Clojure development
@@ -125,9 +139,9 @@ For more details, see the Help patcher and full Reference within Max.
 
 4. Download `afterglow-max.zip` from a <a
    href="https://github.com/brunchboy/afterglow-max/releases">release</a>,
-   unzip it, and install the `afterglow-max` folder into Max's `Max
+   unzip it, and install the `afterglow-max` folder into Max&rsquo;s `Max
    7/Packages` folder (in your `Documents` folder). afterglow-max may
-   also work with Max 6, or even Pure Data, but it hasn't been tested
+   also work with Max 6, or even Pure Data, but it hasn&rsquo;t been tested
    with them. If you try, please let us know how it goes on the
    [Wiki](https://github.com/brunchboy/afterglow-max/wiki)!
 
@@ -160,7 +174,7 @@ Packages folder as described in the last Installation step above.
 ## Troubleshooting
 
 When afterglow-max has important events to report, or encounters
-problems, it writes log entries to the normal Max console; that's the
+problems, it writes log entries to the normal Max console; that&rsquo;s the
 first place to look when something seems not to be working right.
 Following normal Max conventions, errors have a red background.
 
@@ -173,7 +187,7 @@ is only one to look at. You can find more complete logs in the
 directory `afterglow-max/logs/` in the Max `Packages` directory where
 you installed afterglow-max.
 
-The Open Lighting Architecture's
+The Open Lighting Architecture&rsquo;s
 [web interface](http://localhost:9090/new/#/), which you can find on
 port 9090 of the machine running afterglow-max if you installed it in
 the normal way, can be useful in troubleshooting as well. You can see
