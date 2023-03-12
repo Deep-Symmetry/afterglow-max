@@ -1,6 +1,6 @@
 # afterglow-max
 
-[![project chat](https://img.shields.io/badge/chat-on%20zulip-brightgreen)](https://deep-symmetry.zulipchat.com/#narrow/stream/318697-afterglow)<br><br>
+[![project chat](https://img.shields.io/badge/chat-on%20zulip-brightgreen)](https://deep-symmetry.zulipchat.com/#narrow/stream/318697-afterglow)<br>
 
 A package for hosting
 [Afterglow](https://github.com/brunchboy/afterglow#afterglow) inside
@@ -11,8 +11,7 @@ A package for hosting
 ## Getting Help
 
 <a href="http://zulip.com"><img align="right" alt="Zulip logo"
- src="doc/modules/ROOT/assets/images/zulip-icon-circle.svg"
- width="128" height="128"></a>
+ src="doc/assets/zulip-icon-circle.svg" width="128" height="128"></a>
 
 Deep Symmetry&rsquo;s projects are generously sponsored with hosting
 by <a href="https://zulip.com">Zulip</a>, an open-source modern team
