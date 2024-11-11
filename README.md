@@ -224,7 +224,7 @@ expect, and are sending DMX channel values that seem reasonable.
 <a href="http://deepsymmetry.org"><img align="right" alt="Deep Symmetry"
  src="doc/assets/DS-logo-github.png" width="250" height="150"></a>
 
-Copyright © 2015 [Deep Symmetry, LLC](http://deepsymmetry.org)
+Copyright © 2015-2024 [Deep Symmetry, LLC](http://deepsymmetry.org)
 
 Distributed under the
 [Eclipse Public License 1.0](http://opensource.org/licenses/eclipse-1.0.php),
