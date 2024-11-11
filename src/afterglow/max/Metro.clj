@@ -38,6 +38,7 @@
             [afterglow.rhythm :as rhythm]
             [afterglow.show :as show]
             [afterglow.show-context :refer [*show* with-show]]
+            [clojure.string :as string]
             [taoensso.timbre :as timbre])
   (:import (com.cycling74.max MaxObject Atom)))
 
@@ -48,7 +49,7 @@
   (core/init)
   (when (nil? *show*)
     (throw (IllegalStateException. "Cannot create Metro object: No default show has been established.")))
-  (when (and (not (clojure.string/blank? k))
+  (when (and (not (string/blank? k))
              (not (satisfies? rhythm/IMetronome (show/get-variable k))))
     (throw (IllegalStateException. (str "Cannot create Metro object: Variable " (keyword k)
                                         " does not contain a Metronome."))))

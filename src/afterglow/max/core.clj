@@ -3,10 +3,12 @@
             [afterglow.midi :as amidi]
             [afterglow.version :as version]
             [afterglow.max.init :refer [init-dir load-init-file get-log-path]]
+            [clojure.java.io :as io]
+            [clojure.string :as string]
             [taoensso.timbre :as timbre]
             [taoensso.timbre.appenders.3rd-party.rotor :as rotor])
-  (:import (com.cycling74.max MaxObject DataTypes)
-           (afterglow.max init__init)))
+  (:import (afterglow.max init__init)
+           (com.cycling74.max MaxObject DataTypes)))
 
 (defn max-output-fn
   "Format log lines appropriately for the Max console"
@@ -14,7 +16,7 @@
   (let [{:keys [level ?err_ vargs_ msg_ ?ns-str hostname_ timestamp_]} data]
     (str
      (force timestamp_) " "
-     (clojure.string/upper-case (name level))  " "
+     (string/upper-case (name level))  " "
      "[" (or ?ns-str "?ns") "] - "
      (force msg_)
      (when-let [err (force ?err_)]
@@ -51,7 +53,7 @@
   ;; Locate the jar we are running from, so from there we can find our init files and
   ;; log directory.
   (try
-    (let [jar (clojure.java.io/file (.getLocation (.getCodeSource (.getProtectionDomain afterglow.max.init__init))))
+    (let [jar (io/file (.getLocation (.getCodeSource (.getProtectionDomain afterglow.max.init__init))))
           dir (.getParentFile (.getParentFile jar))]
       (reset! init-dir dir))
     (catch Throwable t

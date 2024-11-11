@@ -157,10 +157,35 @@ Clojure side of afterglow-max, you will want to edit the file
 > explains how to do that.
 
 If you want to build from source, install
-[Leiningen](http://leiningen.org), clone this repository, and run
-`lein uberjar`. That will create `target/afterglow-max.jar` which is
-the compiled code. Copy that into
-`MaxPackage/afterglow-max/java-classes/lib`, and then copy
+[maven](https://www.apache.org) and [Leiningen](http://leiningen.org),
+and clone this repository.
+
+Compilation also relies on the file `max.jar` which ships with Max,
+but is not published to Maven Central or anywhere else, and we can't
+redistribute it ourselves. So you will need to install a copy in your
+local Maven repository, under the groupId `local`, artifactId
+`max`, and version `0.9`.
+
+1. First, find your copy of the file. In the macOS version of Max, you
+   need to look inside the application bundle itself. Right-click on
+   the application in the Finder, and choose **Show Package
+   Contents**. This will open it as a folder, and you can find the
+   file at
+   `Max.app/Contents/Resources/C74/packages/max-mxj/java-classes/lib/max.jar`.
+   The mxj tutorial inside Max says that on Windows machines the file
+   can be found at `\Program Files\Common Files\Cycling
+   '74\java\lib\max.jar`, but I can't verify if this information is
+   current.
+
+2. Open a terminal and `cd` into the same directory that contains
+   `max.jar`, and issue the following command to install it in the
+   right place in your local Maven repository:
+
+       mvn install:install-file -Dfile=max.jar  -DgroupId=local -DartifactId=max -Dversion=0.9 -Dpackaging=jar
+
+Once this is all in place, you can run `lein uberjar`. That will
+create `target/afterglow-max.jar` which is the compiled code. Copy
+that into `MaxPackage/afterglow-max/java-classes/lib`, and then copy
 `MaxPackage/afterglow-max`, which is the Max package, to the Max
 Packages folder as described in the last Installation step above.
 
